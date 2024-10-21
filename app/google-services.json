@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "375464921781",
+    "project_id": "country-quiz-68771",
+    "storage_bucket": "country-quiz-68771.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375464921781:android:2c14a2db3482caf9e88cfc",
+        "android_client_info": {
+          "package_name": "com.abrebo.countryquiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSLv05FxWlqL_5nvbqt6bcKsTIn6htcZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
