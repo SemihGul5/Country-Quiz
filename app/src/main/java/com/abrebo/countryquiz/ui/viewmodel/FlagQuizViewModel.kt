@@ -75,12 +75,15 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository,
         return repository.getAllCountries()
     }
 
-    fun checkAnswer(selectedDrawable: Int) {
-        if (selectedDrawable == _currentQuestion.value?.flagDrawable) {
+    fun checkAnswer(selectedDrawable: Int): Boolean {
+        return if (selectedDrawable == _currentQuestion.value?.flagDrawable) {
             _score.value = _score.value?.plus(1)
+            true
+        } else {
+            false
         }
-        nextQuestion()
     }
+
 
     private fun resetGame() {
         questionIndex = 0
