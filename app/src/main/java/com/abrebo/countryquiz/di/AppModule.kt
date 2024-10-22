@@ -9,15 +9,26 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class UsersCollection
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class UserScoresCollection
+
+
     @Provides
     @Singleton
-    fun provideDataSource(collectionReference: CollectionReference):DataSource{
-        return DataSource(collectionReference)
+    fun provideDataSource(@UsersCollection collectionReference: CollectionReference,
+                          @UserScoresCollection collectionReferenceUserScores: CollectionReference):DataSource{
+        return DataSource(collectionReference,collectionReferenceUserScores)
     }
 
     @Provides
@@ -28,8 +39,15 @@ class AppModule {
 
     @Provides
     @Singleton
+    @UsersCollection
     fun provideCollectionReference():CollectionReference{
         return Firebase.firestore.collection("Users")
+    }
+    @Provides
+    @Singleton
+    @UserScoresCollection
+    fun provideCollectionReferenceUserScores():CollectionReference{
+        return Firebase.firestore.collection("UserScores")
     }
 
 }

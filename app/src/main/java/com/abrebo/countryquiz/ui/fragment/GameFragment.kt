@@ -18,6 +18,7 @@ import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.databinding.FragmentGameBinding
 import com.abrebo.countryquiz.ui.viewmodel.FlagQuizViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,7 +51,9 @@ class GameFragment : Fragment() {
 
         val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            showScoreDialog()
+            if (!isGameFinished) {
+                showScoreDialog()
+            }
             true
         }
     }
@@ -127,11 +130,18 @@ class GameFragment : Fragment() {
         countDownTimer.cancel()
         isGameFinished = true
         val score = viewModel.score.value ?: 0
+        val auth=FirebaseAuth.getInstance()
+        val email=auth.currentUser?.email!!
+        viewModel.getUserNameByEmail(email){
+            if (it!=null){
+                viewModel.updateScore(score, it)
+            }
+        }
         AlertDialog.Builder(requireContext())
             .setTitle("Oyun Bitti!")
             .setMessage("Skorunuz: $score")
             .setPositiveButton("Tamam") { _, _ ->
-                Navigation.findNavController(requireView()).navigate(R.id.action_gameFragment_to_homeFragment)
+                Navigation.findNavController(binding.root).navigate(R.id.action_gameFragment_to_homeFragment)
             }
             .setCancelable(false)
             .show()

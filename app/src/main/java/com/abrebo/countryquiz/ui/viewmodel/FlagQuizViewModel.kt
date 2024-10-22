@@ -6,10 +6,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.FlagQuestion
 import com.abrebo.countryquiz.data.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -24,7 +26,8 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository,
     val score: LiveData<Int> get() = _score
     private val questions = mutableListOf<FlagQuestion>()
     private var questionIndex = 0
-
+    private val _highestScore = MutableLiveData<Int>()
+    val highestScore: LiveData<Int> get() = _highestScore
     init {
         _score.value = 0
         prepareQuestions()
@@ -84,7 +87,22 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository,
         }
     }
 
+    fun updateScore(newScore: Int, userId: String) {
+        _score.value = newScore
+        viewModelScope.launch {
+            val currentHighestScore = repository.getHighestScore(userId)
+            _highestScore.value = currentHighestScore
 
+            if (newScore >= currentHighestScore) {
+                repository.saveHighestScore(userId, newScore)
+            }
+        }
+    }
+    fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
+        viewModelScope.launch {
+            onResult(repository.getUserNameByEmail(userEmail))
+        }
+    }
     private fun resetGame() {
         questionIndex = 0
         _score.value = 0

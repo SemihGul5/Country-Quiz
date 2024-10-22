@@ -1,11 +1,13 @@
 package com.abrebo.countryquiz.data.datasource
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.abrebo.countryquiz.data.model.User
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
 
-class DataSource(var collectionReference: CollectionReference) {
+class DataSource(var collectionReference: CollectionReference,
+                 var collectionReferenceUserScores: CollectionReference) {
     var userList=MutableLiveData<List<User>>()
 
     fun uploadUser():MutableLiveData<List<User>>{
@@ -54,23 +56,49 @@ class DataSource(var collectionReference: CollectionReference) {
 
     fun updateUser(user:User){
         val newUser=HashMap<String,Any>()
-        newUser["AdSoyad"]=user.nameFamily!!
-        newUser["KullanıcıAdı"]=user.userName!!
-        newUser["Email"]=user.email!!
+        newUser["nameFamily"]=user.nameFamily!!
+        newUser["userName"]=user.userName!!
+        newUser["email"]=user.email!!
         collectionReference.document(user.id!!).update(newUser)
     }
 
     suspend fun checkUserNameAvailability(userName: String): Boolean {
         return try {
             val querySnapshot = collectionReference
-                .whereEqualTo("KullanıcıAdı", userName)
+                .whereEqualTo("userName", userName)
                 .get()
                 .await()
 
             querySnapshot.isEmpty
         } catch (e: Exception) {
+            Log.e("hata",e.message.toString())
             false
         }
     }
+    suspend fun getHighestScore(userId: String): Int {
+        val document = collectionReferenceUserScores.document(userId).get().await()
+        return document.getLong("highestScore")?.toInt() ?: 0
+    }
 
+    suspend fun saveHighestScore(userId: String, score: Int) {
+        collectionReferenceUserScores.document(userId).set(mapOf("highestScore" to score))
+    }
+    suspend fun getUserNameByEmail(userEmail: String): String? {
+        return try {
+            val querySnapshot = collectionReference
+                .whereEqualTo("email", userEmail)
+                .get()
+                .await()
+
+            if (!querySnapshot.isEmpty) {
+                val document = querySnapshot.documents.first()
+                document.getString("userName")
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("hata", e.message.toString())
+            null
+        }
+    }
 }

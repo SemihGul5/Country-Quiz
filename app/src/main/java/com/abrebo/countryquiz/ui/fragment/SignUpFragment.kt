@@ -66,7 +66,7 @@ class SignUpFragment : Fragment() {
             binding.progressBar.visibility = View.VISIBLE
 
             viewModel.checkUserNameAvailability(userName) { isAvailable ->
-                if (!isAvailable) {
+                if (isAvailable) {
                     val userObject=User("",nameFamily,userName,email)
                     viewModel.createUserWithEmailAndPassword(auth,email,password,userObject,binding.progressBar)
                     clearText()
