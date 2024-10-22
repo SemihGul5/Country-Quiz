@@ -16,9 +16,9 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.abrebo.countryquiz.ui.fragment.DashboardFragment"
+        android:name="com.abrebo.countryquiz.ui.fragment.RankFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_rank" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.abrebo.countryquiz.ui.fragment.ProfileFragment"

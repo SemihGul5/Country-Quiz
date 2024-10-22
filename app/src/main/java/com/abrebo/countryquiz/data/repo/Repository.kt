@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.datasource.DataSource
 import com.abrebo.countryquiz.data.model.FlagQuestion
+import com.abrebo.countryquiz.data.model.RankUser
 import com.abrebo.countryquiz.data.model.User
 
 class Repository(var dataSource: DataSource) {
@@ -16,7 +17,7 @@ class Repository(var dataSource: DataSource) {
     suspend fun getHighestScore(userId: String): Int = dataSource.getHighestScore(userId)
     suspend fun saveHighestScore(userId: String, score: Int) = dataSource.saveHighestScore(userId, score)
     suspend fun getUserNameByEmail(userEmail: String): String? =dataSource.getUserNameByEmail(userEmail)
-
+    suspend fun getAllRankUsers(): List<RankUser> = dataSource.getAllRankUsers()
     fun getAllCountries():List<FlagQuestion>{
         return  listOf(
             FlagQuestion(R.drawable.afganistan, "AFGANİSTAN", emptyList()),
