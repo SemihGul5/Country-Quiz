@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.countryquiz.R
+import com.abrebo.countryquiz.data.model.GameCategory
 import com.abrebo.countryquiz.databinding.FragmentHomeBinding
+import com.abrebo.countryquiz.ui.adapter.GameCategoryAdapter
 import com.abrebo.countryquiz.ui.viewmodel.HomeViewModel
 import com.abrebo.countryquiz.utils.BackPressUtils
 import com.abrebo.countryquiz.utils.setupBottomNavigation
@@ -39,14 +41,15 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
         setupBottomNavigation()
-        binding.gameStartButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_gameFragment)
-        }
-        viewModel.highestScore.observe(viewLifecycleOwner){highestScore->
-            binding.textViewMyHighScore.text="En Yüksek Skor: ${highestScore}"
+        viewModel.loadCategories()
+        viewModel.categoryList.observe(viewLifecycleOwner){categoryList->
+            val adapter=GameCategoryAdapter(requireContext(),categoryList)
+            binding.recyclerViewGameCategory.adapter=adapter
         }
 
+
     }
+
     override fun onResume() {
         super.onResume()
         initViewModel()
