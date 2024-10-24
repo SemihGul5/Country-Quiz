@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_populationQuizFragment"
+            app:destination="@id/populationQuizFragment" />
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
@@ -34,5 +37,13 @@
         <argument
             android:name="id"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/populationQuizFragment"
+        android:name="com.abrebo.countryquiz.ui.fragment.PopulationQuizFragment"
+        android:label="PopulationQuizFragment" >
+        <action
+            android:id="@+id/action_populationQuizFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

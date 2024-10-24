@@ -1,6 +1,7 @@
 package com.abrebo.countryquiz.di
 
 import com.abrebo.countryquiz.data.datasource.DataSource
+import com.abrebo.countryquiz.data.repo.CountriesPopulationRepository
 import com.abrebo.countryquiz.data.repo.Repository
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.CollectionReference
@@ -35,6 +36,11 @@ class AppModule {
     @Singleton
     fun provideRepository(dataSource: DataSource):Repository{
         return Repository(dataSource)
+    }
+    @Provides
+    @Singleton
+    fun provideCountriesPopulationRepository(): CountriesPopulationRepository {
+        return CountriesPopulationRepository()
     }
 
     @Provides

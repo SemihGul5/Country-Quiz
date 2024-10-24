@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.GameCategory
 import com.abrebo.countryquiz.databinding.GameCategoryItemBinding
 import com.abrebo.countryquiz.ui.fragment.HomeFragmentDirections
@@ -32,8 +33,13 @@ class GameCategoryAdapter(
         binding.kategoryDescription.text = category.description
 
         binding.startGameButton.setOnClickListener {
-            val navDirection=HomeFragmentDirections.actionHomeFragmentToGameFragment(category.id)
-            Navigation.findNavController(it).navigate(navDirection)
+            if (category.id==4) {
+                Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_populationQuizFragment)
+            }else if(category.id==1||category.id==6){
+                val navDirection=HomeFragmentDirections.actionHomeFragmentToGameFragment(category.id)
+                Navigation.findNavController(it).navigate(navDirection)
+            }
+
         }
 
 
