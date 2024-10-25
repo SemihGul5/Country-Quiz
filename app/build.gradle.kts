@@ -72,5 +72,6 @@ dependencies {
     //others
     implementation("com.github.bumptech.glide:glide:4.13.2")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("nl.joery.animatedbottombar:library:1.1.0")
 
 }

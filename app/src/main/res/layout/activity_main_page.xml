@@ -23,9 +23,6 @@
         android:background="@color/main_color"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        app:itemActiveIndicatorStyle="@color/white"
         android:layout_gravity="bottom"
-        app:menu="@menu/main_menu">
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:menu="@menu/main_menu"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

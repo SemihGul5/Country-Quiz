@@ -80,7 +80,7 @@ class GameFragment : Fragment() {
         viewModel.currentQuestion.observe(viewLifecycleOwner) { flagQuestion ->
             binding.countryNameText.text = flagQuestion.correctAnswer
             imageViews.forEachIndexed { index, imageView ->
-                imageView.setImageResource(flagQuestion.options[index])
+                imageView.setImageResource(flagQuestion.options[index] as Int)
                 imageView.tag = flagQuestion.options[index]
             }
         }

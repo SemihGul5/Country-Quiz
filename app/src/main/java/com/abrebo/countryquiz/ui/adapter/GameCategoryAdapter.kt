@@ -38,6 +38,9 @@ class GameCategoryAdapter(
             }else if(category.id==1||category.id==6){
                 val navDirection=HomeFragmentDirections.actionHomeFragmentToGameFragment(category.id)
                 Navigation.findNavController(it).navigate(navDirection)
+            }else if(category.id==2){
+                Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_game2Fragment)
+
             }
 
         }
