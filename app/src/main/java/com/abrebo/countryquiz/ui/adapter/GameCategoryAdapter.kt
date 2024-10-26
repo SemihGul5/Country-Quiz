@@ -33,16 +33,21 @@ class GameCategoryAdapter(
         binding.kategoryDescription.text = category.description
 
         binding.startGameButton.setOnClickListener {
-            if (category.id==4) {
-                Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_populationQuizFragment)
-            }else if(category.id==1||category.id==6){
-                val navDirection=HomeFragmentDirections.actionHomeFragmentToGameFragment(category.id)
-                Navigation.findNavController(it).navigate(navDirection)
-            }else if(category.id==2){
-                Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_game2Fragment)
+            when (category.id) {
+                4 -> {
+                    Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_populationQuizFragment)
+                }
+                1, 6 -> {
+                    val navDirection=HomeFragmentDirections.actionHomeFragmentToGameFragment(category.id)
+                    Navigation.findNavController(it).navigate(navDirection)
+                }
+                2 -> {
+                    val navDirection=HomeFragmentDirections.actionHomeFragmentToGameFragment(category.id)
+                    Navigation.findNavController(it).navigate(navDirection)
+                }
+
 
             }
-
         }
 
 

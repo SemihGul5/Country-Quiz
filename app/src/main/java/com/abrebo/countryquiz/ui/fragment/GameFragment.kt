@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
@@ -29,6 +30,7 @@ class GameFragment : Fragment() {
     private var timeLeftInMillis: Long = 60000
     private lateinit var countDownTimer: CountDownTimer
     private var isGameFinished = false
+    private lateinit var answerButtons: List<Button>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentGameBinding.inflate(inflater, container, false)
@@ -37,15 +39,32 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
         val id=GameFragmentArgs.fromBundle(requireArguments()).id
-        if (id==1){
-            setupProgressAndTimer(10,10,10000)
-        }else if(id==6){
-            setupProgressAndTimer(60,60,60000)
+        viewModel.nextQuestion(id)
+
+        when (id) {
+            1 -> {
+                imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
+                viewModel.prepareQuestionsGame1()
+                setupProgressAndTimer(10,10,10000)
+            }
+            6 -> {
+                imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
+                viewModel.prepareQuestionsGame1()
+                setupProgressAndTimer(60,60,60000)
+            }
+            2 -> {
+                viewModel.prepareQuestionsGame2()
+                answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
+                setupProgressAndTimer(10,10,10000)
+                binding.game1CountryNameText.visibility=View.GONE
+                binding.game1LinearLayout.visibility=View.GONE
+                binding.game2FlagImage.visibility=View.VISIBLE
+                binding.game2LinearLayout.visibility=View.VISIBLE
+            }
         }
 
-        setupObservers()
+        setupObservers(id)
         setupClickListeners(id)
         startTimer(id)
 
@@ -76,33 +95,57 @@ class GameFragment : Fragment() {
         timeLeftInMillis=timeLeftInMilis
     }
     @SuppressLint("SetTextI18n")
-    private fun setupObservers() {
-        viewModel.currentQuestion.observe(viewLifecycleOwner) { flagQuestion ->
-            binding.countryNameText.text = flagQuestion.correctAnswer
-            imageViews.forEachIndexed { index, imageView ->
-                imageView.setImageResource(flagQuestion.options[index] as Int)
-                imageView.tag = flagQuestion.options[index]
+    private fun setupObservers(id:Int) {
+        viewModel.currentQuestion.observe(viewLifecycleOwner){flagQuestion->
+            if (id==1||id==6){
+                binding.game1CountryNameText.text = flagQuestion.countryName
+                imageViews.forEachIndexed { index, imageView ->
+                    imageView.setImageResource(flagQuestion.options[index] as Int)
+                    imageView.tag = flagQuestion.options[index]
+                }
+            }else if (id==2){
+                binding.game2FlagImage.setImageResource(flagQuestion.flagDrawable)
+                answerButtons.forEachIndexed { index, button ->
+                    button.text = flagQuestion.options[index].toString()
+                    button.tag = flagQuestion.options[index]
+                }
             }
         }
+
         viewModel.score.observe(viewLifecycleOwner) { score ->
             binding.scoreText.text = "Skor: $score"
         }
     }
 
     private fun setupClickListeners(id: Int) {
-        imageViews.forEach { imageView ->
-            imageView.setOnClickListener { view ->
-                val selectedDrawable = view.tag as Int
-                if (!viewModel.checkAnswer(selectedDrawable)) {
-                    showScoreDialog()
-                } else {
-                    viewModel.nextQuestion()
-                    if (id == 1) {
+        if (id==1||id==6){
+            imageViews.forEach { imageView ->
+                imageView.setOnClickListener { view ->
+                    val selectedDrawable = view.tag as Int
+                    if (!viewModel.checkAnswer(selectedDrawable)) {
+                        showScoreDialog()
+                    } else {
+                        viewModel.nextQuestion(id)
+                        if (id == 1) {
+                            resetTimer(10000,id)
+                        }
+                    }
+                }
+            }
+        }else if (id==2){
+            answerButtons.forEach { button ->
+                button.setOnClickListener { view ->
+                    val selectedCountryName = view.tag as String
+                    if (!viewModel.checkAnswer(selectedCountryName)) {
+                        showScoreDialog()
+                    } else {
+                        viewModel.nextQuestion(id)
                         resetTimer(10000,id)
                     }
                 }
             }
         }
+
     }
 
     private fun startTimer(id:Int) {
@@ -125,13 +168,13 @@ class GameFragment : Fragment() {
         binding.progressBar.progress = secondsLeft
 
         when (id) {
-            1 -> {
+            6 -> {
                 when {
-                    secondsLeft > 7 -> {
+                    secondsLeft > 40 -> {
                         binding.timerText.setTextColor(resources.getColor(R.color.green))
                         binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.green))
                     }
-                    secondsLeft > 3 -> {
+                    secondsLeft > 20 -> {
                         binding.timerText.setTextColor(resources.getColor(R.color.yellow))
                         binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
                     }
@@ -141,13 +184,13 @@ class GameFragment : Fragment() {
                     }
                 }
             }
-            6 -> {
+            else -> {
                 when {
-                    secondsLeft > 40 -> {
+                    secondsLeft > 7 -> {
                         binding.timerText.setTextColor(resources.getColor(R.color.green))
                         binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.green))
                     }
-                    secondsLeft > 20 -> {
+                    secondsLeft > 3 -> {
                         binding.timerText.setTextColor(resources.getColor(R.color.yellow))
                         binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
                     }

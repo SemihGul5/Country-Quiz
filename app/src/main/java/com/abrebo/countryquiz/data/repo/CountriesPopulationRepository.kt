@@ -4,10 +4,6 @@ import com.abrebo.countryquiz.data.model.PopulationQuestion
 
 class CountriesPopulationRepository{
 
-
-
-
-
     fun getAllCountriesPopulation(): List<PopulationQuestion> {
         return listOf(
             PopulationQuestion("Hindistan", "1,450,935,791", emptyList()),
