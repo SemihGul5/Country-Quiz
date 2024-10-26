@@ -9,7 +9,6 @@ import androidx.navigation.Navigation
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.databinding.FragmentProfileBinding
 import com.abrebo.countryquiz.utils.BackPressUtils
-import com.abrebo.countryquiz.utils.setupBottomNavigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +27,5 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
-        setupBottomNavigation()
     }
 }

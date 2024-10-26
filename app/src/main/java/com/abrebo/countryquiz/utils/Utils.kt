@@ -28,23 +28,4 @@ object BackPressUtils {
         fragment.requireActivity().onBackPressedDispatcher.addCallback(lifecycleOwner, backButtonCallback)
     }
 }
-fun Fragment.setupBottomNavigation() {
-    val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-    bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-        when (menuItem.itemId) {
-            R.id.homeFragment -> {
-                Navigation.findNavController(requireView()).navigate(R.id.homeFragment)
-                true
-            }
-            R.id.dashboardFragment -> {
-                Navigation.findNavController(requireView()).navigate(R.id.dashboardFragment)
-                true
-            }
-            R.id.profileFragment -> {
-                Navigation.findNavController(requireView()).navigate(R.id.profileFragment)
-                true
-            }
-            else -> false
-        }
-    }
-}
+

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.FlagQuestion
+import com.abrebo.countryquiz.data.model.PopulationQuestion
 import com.abrebo.countryquiz.data.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -37,7 +38,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
 
         shuffledCountries.forEach { correctCountry ->
             val options = allCountries
-                .filter { it.correctAnswer != correctCountry.correctAnswer }
+                .filter { it.countryName != correctCountry.countryName }
                 .shuffled()
                 .take(3)
                 .map { it.flagDrawable }
@@ -47,7 +48,10 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             options.add(correctAnswerPosition, correctCountry.flagDrawable)
             val question = FlagQuestion(
                 flagDrawable = correctCountry.flagDrawable,
-                correctAnswer = correctCountry.correctAnswer,
+                countryName = correctCountry.countryName,
+                population = correctCountry.population,
+                capital = correctCountry.capital,
+                continent = correctCountry.continent,
                 options = options
             )
             questions.add(question)
@@ -59,23 +63,109 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
 
         shuffledCountries.forEach { correctCountry ->
             val options = allCountries
-                .filter { it.correctAnswer != correctCountry.correctAnswer }
+                .filter { it.countryName != correctCountry.countryName }
                 .shuffled()
                 .take(3)
-                .map { it.correctAnswer }
+                .map { it.countryName }
                 .toMutableList()
 
             val correctAnswerPosition = Random.nextInt(4)
-            options.add(correctAnswerPosition, correctCountry.correctAnswer)
+            options.add(correctAnswerPosition, correctCountry.countryName)
 
             val question = FlagQuestion(
                 flagDrawable = correctCountry.flagDrawable,
-                correctAnswer = correctCountry.correctAnswer,
+                countryName = correctCountry.countryName,
+                population = correctCountry.population,
+                capital = correctCountry.capital,
+                continent = correctCountry.continent,
                 options = options
             )
             questions.add(question)
         }
     }
+    fun prepareQuestionsGame4Population() {
+        val allCountries = repository.getAllCountries()
+        allCountries.shuffled().forEach { country ->
+            val options = allCountries
+                .filter { it != country }
+                .shuffled()
+                .take(3)
+                .map { it.population }
+                .toMutableList()
+
+            val correctAnswerPosition = Random.nextInt(4)
+            options.add(correctAnswerPosition, country.population)
+
+            questions.add(
+                FlagQuestion(
+                    countryName = country.countryName,
+                    population = country.population,
+                    capital = country.capital,
+                    flagDrawable = country.flagDrawable,
+                    continent = country.continent,
+                    options = options
+                )
+            )
+        }
+    }
+    fun prepareQuestionsGame3Capital() {
+        val allCountries = repository.getAllCountries()
+        allCountries.shuffled().forEach { country ->
+            val options = allCountries
+                .filter { it != country }
+                .shuffled()
+                .take(3)
+                .map { it.capital }
+                .toMutableList()
+
+            val correctAnswerPosition = Random.nextInt(4)
+            options.add(correctAnswerPosition, country.capital)
+
+            questions.add(
+                FlagQuestion(
+                    countryName = country.countryName,
+                    population = country.population,
+                    capital = country.capital,
+                    flagDrawable = country.flagDrawable,
+                    continent = country.continent,
+                    options = options
+                )
+            )
+        }
+    }
+    fun prepareQuestionsGame8Continent() {
+        val allCountries = repository.getAllCountries()
+        allCountries.shuffled().forEach { country ->
+            // Mevcut ülkenin kıtasını alma
+            val currentContinent = country.continent
+
+            // Aynı kıtayı içermeyen ülkeleri filtreleyerek kıtaları almak
+            val continentOptions = allCountries
+                .filter { it.continent != currentContinent }
+                .map { it.continent }
+                .distinct() // Farklı kıtaları alıyoruz
+
+            // Seçenek listesi oluştur
+            val options = continentOptions.shuffled().take(3).toMutableList()
+
+            // Doğru cevabı ekle
+            options.add(Random.nextInt(4), currentContinent)
+
+            questions.add(
+                FlagQuestion(
+                    countryName = country.countryName,
+                    population = country.population,
+                    capital = country.capital,
+                    flagDrawable = country.flagDrawable,
+                    continent = country.continent,
+                    options = options
+                )
+            )
+        }
+    }
+
+
+
     fun nextQuestion(id:Int) {
         if (questionIndex < questions.size) {
             _currentQuestion.value = questions[questionIndex]
@@ -98,8 +188,32 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
         }
     }
     fun checkAnswer(selectedCountryName: String): Boolean {
-        return if (selectedCountryName == _currentQuestion.value?.correctAnswer) {
+        return if (selectedCountryName == _currentQuestion.value?.countryName) {
             _score.value = _score.value?.plus(1)
+            true
+        } else {
+            false
+        }
+    }
+    fun checkAnswerGame4Population(selectedAnswer: String): Boolean {
+        return if (selectedAnswer == currentQuestion.value?.population) {
+            _score.value = score.value?.plus(1)
+            true
+        } else {
+            false
+        }
+    }
+    fun checkAnswerGame3Capital(selectedAnswer: String): Boolean {
+        return if (selectedAnswer == currentQuestion.value?.capital) {
+            _score.value = score.value?.plus(1)
+            true
+        } else {
+            false
+        }
+    }
+    fun checkAnswerGame8Continent(selectedAnswer: String): Boolean {
+        return if (selectedAnswer == currentQuestion.value?.continent) {
+            _score.value = score.value?.plus(1)
             true
         } else {
             false
@@ -124,10 +238,22 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
     private fun resetGame(id:Int) {
         questionIndex = 0
         _score.value = 0
-        if (id==1||id==6){
-            prepareQuestionsGame1()
-        }else if (id==2){
-            prepareQuestionsGame2()
+        when (id) {
+            1, 6 -> {
+                prepareQuestionsGame1()
+            }
+            2 -> {
+                prepareQuestionsGame2()
+            }
+            3->{
+                prepareQuestionsGame3Capital()
+            }
+            4 -> {
+                prepareQuestionsGame4Population()
+            }
+            8->{
+                prepareQuestionsGame8Continent()
+            }
         }
         nextQuestion(id)
     }

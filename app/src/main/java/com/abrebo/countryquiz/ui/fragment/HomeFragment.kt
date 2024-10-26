@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.countryquiz.R
@@ -14,7 +15,6 @@ import com.abrebo.countryquiz.databinding.FragmentHomeBinding
 import com.abrebo.countryquiz.ui.adapter.GameCategoryAdapter
 import com.abrebo.countryquiz.ui.viewmodel.HomeViewModel
 import com.abrebo.countryquiz.utils.BackPressUtils
-import com.abrebo.countryquiz.utils.setupBottomNavigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +33,9 @@ class HomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding=FragmentHomeBinding.inflate(inflater, container, false)
+        val typeface = ResourcesCompat.getFont(requireContext(), R.font.pacifico)
+        binding.textView.typeface = typeface
+
         return binding.root
     }
 
@@ -40,7 +43,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
-        setupBottomNavigation()
+
         viewModel.loadCategories()
         viewModel.categoryList.observe(viewLifecycleOwner){categoryList->
             val adapter=GameCategoryAdapter(requireContext(),categoryList)

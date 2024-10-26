@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import com.abrebo.countryquiz.databinding.FragmentRankBinding
 import com.abrebo.countryquiz.ui.viewmodel.UserViewModel
 import com.abrebo.countryquiz.utils.BackPressUtils
-import com.abrebo.countryquiz.utils.setupBottomNavigation
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +32,6 @@ class RankFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
-        setupBottomNavigation()
         viewModel.userRankList.observe(viewLifecycleOwner){
             viewModel.getUserNameByEmail(auth.currentUser?.email!!){userName->
                 val adapter= RankAdapter(requireContext(),it,userName!!)

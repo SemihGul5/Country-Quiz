@@ -50,9 +50,7 @@ class HomeViewModel @Inject constructor (var repository: Repository,
             GameCategory(7,"Coğrafi Konuma Göre Ülke İsmi Bul",
                 "Harita üzerinde ülkeler gösteriliyor, gösterilen ülkeyi bulun."),
             GameCategory(8,"Ülkenin Kıtasını Tahmin Et",
-                "Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 10 saniye. Kıtalar arasında 4 seçenek."),
-            GameCategory(9,"Para Birimi Tahmini",
-                "Ülkenin para birimini tahmin et. Her soru için 10 saniye. Bayraklar arasında 4 seçenek.")
+                "Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 5 saniye. Kıtalar arasında 4 seçenek."),
         )
         categoryList.value = categories
     }

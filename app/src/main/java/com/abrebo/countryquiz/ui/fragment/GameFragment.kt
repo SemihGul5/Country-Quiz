@@ -62,6 +62,27 @@ class GameFragment : Fragment() {
                 binding.game2FlagImage.visibility=View.VISIBLE
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
+            3->{
+                viewModel.prepareQuestionsGame3Capital()
+                answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
+                setupProgressAndTimer(10,10,10000)
+                binding.game1LinearLayout.visibility=View.GONE
+                binding.game2LinearLayout.visibility=View.VISIBLE
+            }
+            4->{
+                viewModel.prepareQuestionsGame4Population()
+                answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
+                setupProgressAndTimer(10,10,10000)
+                binding.game1LinearLayout.visibility=View.GONE
+                binding.game2LinearLayout.visibility=View.VISIBLE
+            }
+            8->{
+                viewModel.prepareQuestionsGame8Continent()
+                answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
+                setupProgressAndTimer(10,10,10000)
+                binding.game1LinearLayout.visibility=View.GONE
+                binding.game2LinearLayout.visibility=View.VISIBLE
+            }
         }
 
         setupObservers(id)
@@ -74,13 +95,6 @@ class GameFragment : Fragment() {
             }
         })
 
-        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            if (!isGameFinished) {
-                showScoreDialog()
-            }
-            true
-        }
     }
 
     override fun onPause() {
@@ -97,17 +111,28 @@ class GameFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setupObservers(id:Int) {
         viewModel.currentQuestion.observe(viewLifecycleOwner){flagQuestion->
-            if (id==1||id==6){
-                binding.game1CountryNameText.text = flagQuestion.countryName
-                imageViews.forEachIndexed { index, imageView ->
-                    imageView.setImageResource(flagQuestion.options[index] as Int)
-                    imageView.tag = flagQuestion.options[index]
+            when (id) {
+                1, 6 -> {
+                    binding.game1CountryNameText.text = flagQuestion.countryName
+                    imageViews.forEachIndexed { index, imageView ->
+                        imageView.setImageResource(flagQuestion.options[index] as Int)
+                        imageView.tag = flagQuestion.options[index]
+                    }
                 }
-            }else if (id==2){
-                binding.game2FlagImage.setImageResource(flagQuestion.flagDrawable)
-                answerButtons.forEachIndexed { index, button ->
-                    button.text = flagQuestion.options[index].toString()
-                    button.tag = flagQuestion.options[index]
+                2 -> {
+                    binding.game2FlagImage.setImageResource(flagQuestion.flagDrawable)
+                    answerButtons.forEachIndexed { index, button ->
+                        button.text = flagQuestion.options[index].toString()
+                        button.tag = flagQuestion.options[index]
+                    }
+                }
+
+                3,4,8 -> {
+                    binding.game1CountryNameText.text = flagQuestion.countryName
+                    answerButtons.forEachIndexed { index, button ->
+                        button.text = flagQuestion.options[index].toString()
+                        button.tag = flagQuestion.options[index]
+                    }
                 }
             }
         }
@@ -118,29 +143,71 @@ class GameFragment : Fragment() {
     }
 
     private fun setupClickListeners(id: Int) {
-        if (id==1||id==6){
-            imageViews.forEach { imageView ->
-                imageView.setOnClickListener { view ->
-                    val selectedDrawable = view.tag as Int
-                    if (!viewModel.checkAnswer(selectedDrawable)) {
-                        showScoreDialog()
-                    } else {
-                        viewModel.nextQuestion(id)
-                        if (id == 1) {
+        when (id) {
+            1, 6 -> {
+                imageViews.forEach { imageView ->
+                    imageView.setOnClickListener { view ->
+                        val selectedDrawable = view.tag as Int
+                        if (!viewModel.checkAnswer(selectedDrawable)) {
+                            showScoreDialog()
+                        } else {
+                            viewModel.nextQuestion(id)
+                            if (id == 1) {
+                                resetTimer(10000,id)
+                            }
+                        }
+                    }
+                }
+            }
+            2 -> {
+                answerButtons.forEach { button ->
+                    button.setOnClickListener { view ->
+                        val selectedCountryName = view.tag as String
+                        if (!viewModel.checkAnswer(selectedCountryName)) {
+                            showScoreDialog()
+                        } else {
+                            viewModel.nextQuestion(id)
                             resetTimer(10000,id)
                         }
                     }
                 }
             }
-        }else if (id==2){
-            answerButtons.forEach { button ->
-                button.setOnClickListener { view ->
-                    val selectedCountryName = view.tag as String
-                    if (!viewModel.checkAnswer(selectedCountryName)) {
-                        showScoreDialog()
-                    } else {
-                        viewModel.nextQuestion(id)
-                        resetTimer(10000,id)
+            3->{
+                answerButtons.forEach { button ->
+                    button.setOnClickListener { view ->
+                        val selectedPopulation = view.tag as String
+                        if (!viewModel.checkAnswerGame3Capital(selectedPopulation)) {
+                            showScoreDialog()
+                        } else {
+                            viewModel.nextQuestion(id)
+                            resetTimer(10000,id)
+                        }
+                    }
+                }
+            }
+            4 -> {
+                answerButtons.forEach { button ->
+                    button.setOnClickListener { view ->
+                        val selectedPopulation = view.tag as String
+                        if (!viewModel.checkAnswerGame4Population(selectedPopulation)) {
+                            showScoreDialog()
+                        } else {
+                            viewModel.nextQuestion(id)
+                            resetTimer(10000,id)
+                        }
+                    }
+                }
+            }
+            8->{
+                answerButtons.forEach { button ->
+                    button.setOnClickListener { view ->
+                        val selectedPopulation = view.tag as String
+                        if (!viewModel.checkAnswerGame8Continent(selectedPopulation)) {
+                            showScoreDialog()
+                        } else {
+                            viewModel.nextQuestion(id)
+                            resetTimer(10000,id)
+                        }
                     }
                 }
             }
