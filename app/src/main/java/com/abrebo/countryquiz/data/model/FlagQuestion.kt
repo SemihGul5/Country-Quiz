@@ -2,6 +2,7 @@ package com.abrebo.countryquiz.data.model
 
 data class FlagQuestion(
     val flagDrawable: Int,
+    val mapDrawable:Int,
     val countryName: String,
     val capital:String,
     val population:String,

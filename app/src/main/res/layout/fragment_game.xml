@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#053C6C"
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -24,7 +23,6 @@
         android:layout_marginTop="16dp"
         android:text="Skor: 0"
         android:layout_gravity="center"
-        android:textColor="@color/black"
         android:textSize="26sp"
         android:textStyle="bold"/>
     <TextView
@@ -50,7 +48,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Türkiye"
-        android:textColor="@color/black"
         android:textSize="22sp"
         android:layout_gravity="center"
         android:textStyle="bold"/>
@@ -147,6 +144,7 @@
             <Button
                 android:id="@+id/answer1"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
@@ -154,6 +152,7 @@
             <Button
                 android:id="@+id/answer2"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
@@ -168,6 +167,7 @@
             <Button
                 android:id="@+id/answer3"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
@@ -175,6 +175,7 @@
             <Button
                 android:id="@+id/answer4"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />

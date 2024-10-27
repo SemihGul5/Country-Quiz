@@ -50,7 +50,6 @@
                 android:layout_weight="2"
                 android:text="Sıralamayı Gör"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 android:backgroundTint="@color/white"
                 android:layout_gravity="center" />
 
@@ -66,7 +65,6 @@
                 android:layout_weight="1"
                 android:text="Başla"
                 android:textColor="@android:color/white"
-                android:backgroundTint="@color/main_color"
                 android:layout_gravity="end" />
         </LinearLayout>
 

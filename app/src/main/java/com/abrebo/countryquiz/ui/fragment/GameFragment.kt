@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
@@ -44,16 +45,19 @@ class GameFragment : Fragment() {
 
         when (id) {
             1 -> {
+                binding.materialToolbar2.title="Ülke Adına Göre Bayrağını Bul"
                 imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
                 viewModel.prepareQuestionsGame1()
                 setupProgressAndTimer(10,10,10000)
             }
             6 -> {
+                binding.materialToolbar2.title="Ülke Adına Göre Bayrağını Bul"
                 imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
                 viewModel.prepareQuestionsGame1()
                 setupProgressAndTimer(60,60,60000)
             }
             2 -> {
+                binding.materialToolbar2.title="Bayrağa Göre Ülkeyi Bul"
                 viewModel.prepareQuestionsGame2()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
                 setupProgressAndTimer(10,10,10000)
@@ -63,6 +67,7 @@ class GameFragment : Fragment() {
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
             3->{
+                binding.materialToolbar2.title="Ülkenin Başkentini Bul"
                 viewModel.prepareQuestionsGame3Capital()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
                 setupProgressAndTimer(10,10,10000)
@@ -70,13 +75,25 @@ class GameFragment : Fragment() {
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
             4->{
+                binding.materialToolbar2.title="Ülkenin Nüfusunu Bul"
                 viewModel.prepareQuestionsGame4Population()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
                 setupProgressAndTimer(10,10,10000)
                 binding.game1LinearLayout.visibility=View.GONE
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
+            7->{
+                binding.materialToolbar2.title="Coğrafi Konuma Göre Ülkeyi Bul"
+                viewModel.prepareQuestionsGame7Map()
+                answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
+                setupProgressAndTimer(10,10,10000)
+                binding.game1CountryNameText.visibility=View.GONE
+                binding.game1LinearLayout.visibility=View.GONE
+                binding.game2FlagImage.visibility=View.VISIBLE
+                binding.game2LinearLayout.visibility=View.VISIBLE
+            }
             8->{
+                binding.materialToolbar2.title="Ülkenin Kıtasını Bul"
                 viewModel.prepareQuestionsGame8Continent()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
                 setupProgressAndTimer(10,10,10000)
@@ -91,7 +108,7 @@ class GameFragment : Fragment() {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                showScoreDialog()
+                showScoreDialog(id)
             }
         })
 
@@ -100,7 +117,7 @@ class GameFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         if (!isGameFinished) {
-            showScoreDialog()
+            showScoreDialog(id)
         }
     }
     private fun setupProgressAndTimer(progress:Int,progressMax:Int,timeLeftInMilis:Long){
@@ -126,7 +143,13 @@ class GameFragment : Fragment() {
                         button.tag = flagQuestion.options[index]
                     }
                 }
-
+                7 -> {
+                    binding.game2FlagImage.setImageResource(flagQuestion.mapDrawable)
+                    answerButtons.forEachIndexed { index, button ->
+                        button.text = flagQuestion.options[index].toString()
+                        button.tag = flagQuestion.options[index]
+                    }
+                }
                 3,4,8 -> {
                     binding.game1CountryNameText.text = flagQuestion.countryName
                     answerButtons.forEachIndexed { index, button ->
@@ -149,7 +172,7 @@ class GameFragment : Fragment() {
                     imageView.setOnClickListener { view ->
                         val selectedDrawable = view.tag as Int
                         if (!viewModel.checkAnswer(selectedDrawable)) {
-                            showScoreDialog()
+                            showScoreDialog(id)
                         } else {
                             viewModel.nextQuestion(id)
                             if (id == 1) {
@@ -159,12 +182,12 @@ class GameFragment : Fragment() {
                     }
                 }
             }
-            2 -> {
+            2,7 -> {
                 answerButtons.forEach { button ->
                     button.setOnClickListener { view ->
                         val selectedCountryName = view.tag as String
                         if (!viewModel.checkAnswer(selectedCountryName)) {
-                            showScoreDialog()
+                            showScoreDialog(id)
                         } else {
                             viewModel.nextQuestion(id)
                             resetTimer(10000,id)
@@ -177,7 +200,7 @@ class GameFragment : Fragment() {
                     button.setOnClickListener { view ->
                         val selectedPopulation = view.tag as String
                         if (!viewModel.checkAnswerGame3Capital(selectedPopulation)) {
-                            showScoreDialog()
+                            showScoreDialog(id)
                         } else {
                             viewModel.nextQuestion(id)
                             resetTimer(10000,id)
@@ -190,7 +213,7 @@ class GameFragment : Fragment() {
                     button.setOnClickListener { view ->
                         val selectedPopulation = view.tag as String
                         if (!viewModel.checkAnswerGame4Population(selectedPopulation)) {
-                            showScoreDialog()
+                            showScoreDialog(id)
                         } else {
                             viewModel.nextQuestion(id)
                             resetTimer(10000,id)
@@ -203,7 +226,7 @@ class GameFragment : Fragment() {
                     button.setOnClickListener { view ->
                         val selectedPopulation = view.tag as String
                         if (!viewModel.checkAnswerGame8Continent(selectedPopulation)) {
-                            showScoreDialog()
+                            showScoreDialog(id)
                         } else {
                             viewModel.nextQuestion(id)
                             resetTimer(10000,id)
@@ -223,7 +246,7 @@ class GameFragment : Fragment() {
             }
 
             override fun onFinish() {
-                showScoreDialog()
+                showScoreDialog(id)
             }
         }.start()
     }
@@ -275,7 +298,7 @@ class GameFragment : Fragment() {
         timeLeftInMillis = newTimeInMillis
         startTimer(id)
     }
-    private fun showScoreDialog() {
+    private fun showScoreDialog(id:Int) {
         if (isGameFinished) return
         countDownTimer.cancel()
         isGameFinished = true
@@ -284,7 +307,7 @@ class GameFragment : Fragment() {
         val email=auth.currentUser?.email!!
         viewModel.getUserNameByEmail(email){
             if (it!=null){
-                viewModel.updateScore(score, it)
+                viewModel.updateScore(score,it.toString(),id)
             }
         }
         AlertDialog.Builder(requireContext())

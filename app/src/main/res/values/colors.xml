@@ -11,4 +11,7 @@
     <color name="grey">#E4E4E4</color>
     <color name="bottomNav">#F7E3E3E3</color>
     <color name="background">#F4F4F4</color>
+    <color name="backgroun_dark">#053C6C</color>
+    <color name="backgroun_dark_toolbar">#042745</color>
+    <color name="backgroun_dark_game_category">#042745</color>
 </resources>

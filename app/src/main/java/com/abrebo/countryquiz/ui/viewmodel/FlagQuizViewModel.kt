@@ -49,6 +49,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             val question = FlagQuestion(
                 flagDrawable = correctCountry.flagDrawable,
                 countryName = correctCountry.countryName,
+                mapDrawable = correctCountry.mapDrawable,
                 population = correctCountry.population,
                 capital = correctCountry.capital,
                 continent = correctCountry.continent,
@@ -76,6 +77,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
                 flagDrawable = correctCountry.flagDrawable,
                 countryName = correctCountry.countryName,
                 population = correctCountry.population,
+                mapDrawable = correctCountry.mapDrawable,
                 capital = correctCountry.capital,
                 continent = correctCountry.continent,
                 options = options
@@ -101,6 +103,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
                     countryName = country.countryName,
                     population = country.population,
                     capital = country.capital,
+                    mapDrawable = country.mapDrawable,
                     flagDrawable = country.flagDrawable,
                     continent = country.continent,
                     options = options
@@ -125,6 +128,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
                 FlagQuestion(
                     countryName = country.countryName,
                     population = country.population,
+                    mapDrawable = country.mapDrawable,
                     capital = country.capital,
                     flagDrawable = country.flagDrawable,
                     continent = country.continent,
@@ -133,22 +137,46 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             )
         }
     }
+    fun prepareQuestionsGame7Map() {
+        val allCountries = repository.getAllCountries() ?: return
+        val shuffledCountries = allCountries.shuffled()
+
+        shuffledCountries.forEach { correctCountry ->
+            val options = allCountries
+                .filter { it.countryName != correctCountry.countryName && it.continent == correctCountry.continent }
+                .shuffled()
+                .take(3)
+                .map { it.countryName }
+                .toMutableList()
+
+            if (options.size < 3) {
+                return@forEach
+            }
+            val correctAnswerPosition = Random.nextInt(options.size + 1)
+            options.add(correctAnswerPosition, correctCountry.countryName)
+
+            val question = FlagQuestion(
+                flagDrawable = correctCountry.flagDrawable,
+                countryName = correctCountry.countryName,
+                population = correctCountry.population,
+                mapDrawable = correctCountry.mapDrawable,
+                capital = correctCountry.capital,
+                continent = correctCountry.continent,
+                options = options
+            )
+            questions.add(question)
+        }
+    }
+
     fun prepareQuestionsGame8Continent() {
         val allCountries = repository.getAllCountries()
         allCountries.shuffled().forEach { country ->
-            // Mevcut ülkenin kıtasını alma
             val currentContinent = country.continent
-
-            // Aynı kıtayı içermeyen ülkeleri filtreleyerek kıtaları almak
             val continentOptions = allCountries
                 .filter { it.continent != currentContinent }
                 .map { it.continent }
-                .distinct() // Farklı kıtaları alıyoruz
-
-            // Seçenek listesi oluştur
+                .distinct()
             val options = continentOptions.shuffled().take(3).toMutableList()
-
-            // Doğru cevabı ekle
             options.add(Random.nextInt(4), currentContinent)
 
             questions.add(
@@ -156,6 +184,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
                     countryName = country.countryName,
                     population = country.population,
                     capital = country.capital,
+                    mapDrawable = country.mapDrawable,
                     flagDrawable = country.flagDrawable,
                     continent = country.continent,
                     options = options
@@ -163,6 +192,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             )
         }
     }
+
 
 
 
@@ -219,14 +249,14 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             false
         }
     }
-    fun updateScore(newScore: Int, userId: String) {
+    fun updateScore(newScore: Int, userId: String,game:Int) {
         _score.value = newScore
         viewModelScope.launch {
-            val currentHighestScore = repository.getHighestScore(userId)
+            val currentHighestScore = repository.getHighestScore(userId,game)
             _highestScore.value = currentHighestScore
 
             if (newScore >= currentHighestScore) {
-                repository.saveHighestScore(userId, newScore)
+                repository.saveHighestScore(userId, newScore,game)
             }
         }
     }
@@ -250,6 +280,9 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             }
             4 -> {
                 prepareQuestionsGame4Population()
+            }
+            7->{
+                prepareQuestionsGame7Map()
             }
             8->{
                 prepareQuestionsGame8Continent()

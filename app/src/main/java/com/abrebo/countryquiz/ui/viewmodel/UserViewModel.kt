@@ -18,9 +18,9 @@ class UserViewModel @Inject constructor (var repository: Repository,
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
     var userRankList = MutableLiveData<List<RankUser>>()
-    fun getAllRankUsers() {
+    fun getAllRankUsers(game:Int) {
         viewModelScope.launch {
-            val users = repository.getAllRankUsers()
+            val users = repository.getAllRankUsers(game)
             userRankList.value = users
         }
     }

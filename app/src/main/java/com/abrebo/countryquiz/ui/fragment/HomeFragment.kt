@@ -60,7 +60,13 @@ class HomeFragment : Fragment() {
     fun initViewModel(){
         viewModel.getUserNameByEmail(auth.currentUser?.email!!){userName->
             if (userName!=null){
-                viewModel.getHighestScore(userName)
+                viewModel.getHighestScore(userName,1)
+                viewModel.getHighestScore(userName,2)
+                viewModel.getHighestScore(userName,3)
+                viewModel.getHighestScore(userName,4)
+                viewModel.getHighestScore(userName,6)
+                viewModel.getHighestScore(userName,7)
+                viewModel.getHighestScore(userName,8)
             }
         }
     }

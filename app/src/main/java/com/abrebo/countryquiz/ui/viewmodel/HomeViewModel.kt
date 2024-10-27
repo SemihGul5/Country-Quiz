@@ -21,9 +21,9 @@ class HomeViewModel @Inject constructor (var repository: Repository,
     val highestScore: LiveData<Int> get() = _highestScore
     val categoryList = MutableLiveData<List<GameCategory>>()
 
-    fun getHighestScore(userName: String) {
+    fun getHighestScore(userName: String,game:Int) {
         viewModelScope.launch {
-            val currentHighestScore = repository.getHighestScore(userName)
+            val currentHighestScore = repository.getHighestScore(userName,game)
             _highestScore.value = currentHighestScore
         }
     }
@@ -32,27 +32,23 @@ class HomeViewModel @Inject constructor (var repository: Repository,
             onResult(repository.getUserNameByEmail(userEmail))
         }
     }
-
     fun loadCategories() {
         val categories = listOf(
             GameCategory(1,"Ülke Adına Göre Bayrağını Bul",
                 "Bayrağı isme göre eşleştirin. Her soru için 10 saniye. Bayraklar arasında 4 seçenek."),
-            GameCategory(2,"Bayrağa Göre Ülke İsmini Bul",
+            GameCategory(2,"Bayrağa Göre Ülkeyi Bul",
                 "Bayraklardan ülke ismini bulun. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
             GameCategory(3,"Ülkenin Başkentini Bul",
                 "Ülke başkentlerini öğrenin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
-            GameCategory(4,"Ülkenin Nüfusunu Tahmin Et",
+            GameCategory(4,"Ülkenin Nüfusunu Bul",
                 "Ülkelerin nüfusunu tahmin edin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
-            GameCategory(5,"Ülke Simgeleri ile Ülkeyi Eşleştir",
-                "Ülkeleri simgeleriyle eşleştirin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
             GameCategory(6,"Bir Dakikada Tahmin Et (Ülke Adına Göre Bayrağını Bul)",
                 "Bayrağı isme göre eşleştirin. 1 dakikada olabildiğince çok soru bilin."),
-            GameCategory(7,"Coğrafi Konuma Göre Ülke İsmi Bul",
+            GameCategory(7,"Coğrafi Konuma Göre Ülkeyi Bul",
                 "Harita üzerinde ülkeler gösteriliyor, gösterilen ülkeyi bulun."),
-            GameCategory(8,"Ülkenin Kıtasını Tahmin Et",
+            GameCategory(8,"Ülkenin Kıtasını Bul",
                 "Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 5 saniye. Kıtalar arasında 4 seçenek."),
         )
         categoryList.value = categories
     }
-
 }

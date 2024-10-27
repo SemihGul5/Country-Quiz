@@ -7,8 +7,7 @@ import com.abrebo.countryquiz.data.model.User
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
 
-class DataSource(var collectionReference: CollectionReference,
-                 var collectionReferenceUserScores: CollectionReference) {
+class DataSource(var collectionReference: CollectionReference) {
     var userList=MutableLiveData<List<User>>()
 
     fun uploadUser():MutableLiveData<List<User>>{
@@ -76,50 +75,6 @@ class DataSource(var collectionReference: CollectionReference,
             false
         }
     }
-    suspend fun getHighestScore(userId: String): Int {
-        val document = collectionReferenceUserScores.document(userId).get().await()
-        return document.getLong("highestScore")?.toInt() ?: 0
-    }
-
-    suspend fun saveHighestScore(userId: String, score: Int) {
-        val userDoc = collectionReferenceUserScores.document(userId).get().await()
-        if (!userDoc.exists()) {
-            val rankUser = RankUser(
-                rank = 0,
-                userName = userId,
-                highestScore = score
-            )
-            collectionReferenceUserScores.document(userId).set(rankUser)
-            updateUserRanks()
-        } else {
-            val currentHighestScore = userDoc.getLong("highestScore")?.toInt() ?: 0
-            if (score >= currentHighestScore) {
-                val rankUser = RankUser(
-                    rank = userDoc.getLong("rank")?.toInt() ?: 0,
-                    userName = userId,
-                    highestScore = score
-                )
-                collectionReferenceUserScores.document(userId).set(rankUser)
-
-                updateUserRanks()
-            }
-        }
-    }
-
-    private suspend fun updateUserRanks() {
-        val users = collectionReferenceUserScores.get().await().documents
-        val sortedUsers = users.map { doc ->
-            RankUser(
-                rank = 0,
-                userName = doc.id,
-                highestScore = doc.getLong("highestScore")?.toInt() ?: 0
-            )
-        }.sortedByDescending { it.highestScore }
-        sortedUsers.forEachIndexed { index, rankUser ->
-            collectionReferenceUserScores.document(rankUser.userName).update("rank", index + 1)
-        }
-    }
-
     suspend fun getUserNameByEmail(userEmail: String): String? {
         return try {
             val querySnapshot = collectionReference
@@ -136,21 +91,6 @@ class DataSource(var collectionReference: CollectionReference,
         } catch (e: Exception) {
             Log.e("hata", e.message.toString())
             null
-        }
-    }
-    suspend fun getAllRankUsers(): List<RankUser> {
-        return try {
-            val usersSnapshot = collectionReferenceUserScores.get().await()
-            usersSnapshot.documents.map { document ->
-                RankUser(
-                    rank = document.getLong("rank")?.toInt() ?: 0,
-                    userName = document.getString("userName") ?: "Unknown",
-                    highestScore = document.getLong("highestScore")?.toInt() ?: 0
-                )
-            }
-        } catch (e: Exception) {
-            Log.e("hata",e.message.toString())
-            emptyList()
         }
     }
 }

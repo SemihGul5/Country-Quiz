@@ -21,7 +21,7 @@ class RankFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth=FirebaseAuth.getInstance()
-        viewModel.getAllRankUsers()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,7 +31,10 @@ class RankFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
+        val id=RankFragmentArgs.fromBundle(requireArguments()).gameId
+        viewModel.getAllRankUsers(id)
+
+
         viewModel.userRankList.observe(viewLifecycleOwner){
             viewModel.getUserNameByEmail(auth.currentUser?.email!!){userName->
                 val adapter= RankAdapter(requireContext(),it,userName!!)

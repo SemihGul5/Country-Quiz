@@ -36,6 +36,10 @@ class GameCategoryAdapter(
             val navDirection=HomeFragmentDirections.actionHomeFragmentToGameFragment(category.id)
             Navigation.findNavController(it).navigate(navDirection)
         }
+        binding.rankButton.setOnClickListener {
+            val navDirection=HomeFragmentDirections.actionHomeFragmentToRankFragment(category.id)
+            Navigation.findNavController(it).navigate(navDirection)
+        }
 
 
     }
