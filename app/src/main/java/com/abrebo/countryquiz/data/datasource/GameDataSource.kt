@@ -3,16 +3,16 @@ package com.abrebo.countryquiz.data.datasource
 import android.util.Log
 import com.abrebo.countryquiz.data.model.RankUser
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.coroutines.tasks.await
 
-class GameDataSource(val collectionReferenceGame1:CollectionReference,
-                     val collectionReferenceGame2:CollectionReference,
-                     val collectionReferenceGame3:CollectionReference,
-                     val collectionReferenceGame4:CollectionReference,
-                     val collectionReferenceGame6:CollectionReference,
-                     val collectionReferenceGame7:CollectionReference,
-                     val collectionReferenceGame8:CollectionReference) {
+class GameDataSource(
+    private val collectionReferenceGame1:CollectionReference,
+    private val collectionReferenceGame2:CollectionReference,
+    private val collectionReferenceGame3:CollectionReference,
+    private val collectionReferenceGame4:CollectionReference,
+    private val collectionReferenceGame6:CollectionReference,
+    private val collectionReferenceGame7:CollectionReference,
+    private val collectionReferenceGame8:CollectionReference) {
 
     suspend fun getHighestScore(userId: String, game: Int): Int {
         val collectionReference = when (game) {

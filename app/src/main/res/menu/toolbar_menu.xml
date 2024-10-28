@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/profileFragment"
+        android:id="@+id/profileFragmentToolbarMenu"
         android:icon="@drawable/baseline_person_24"
         android:title="Profil"
         app:showAsAction="ifRoom"

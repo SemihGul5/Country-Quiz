@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="answer">answer</string>
+    <string name="e_mail">E-mail</string>
+    <string name="ifre">Şifre</string>
+    <string name="giri_yap">Giriş Yap</string>
+    <string name="uye_degil_misin_uye_ol">Üye değil misin? Üye Ol !</string>
+    <string name="ad_ve_soyad">Ad ve Soyad</string>
+    <string name="kullanici_adi">Kullanıcı Adı</string>
+    <string name="kayit_ol">Kayıt Ol</string>
+    <string name="zaten_ye_misiniz_giri_yap">Zaten üye misiniz? Giriş Yap !</string>
+    <string name="siralamayi_gor">Sıralamayı Gör</string>
+    <string name="ba_la">Başla</string>
+</resources>

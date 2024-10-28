@@ -10,12 +10,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.abrebo.countryquiz.R
-import com.abrebo.countryquiz.data.model.GameCategory
 import com.abrebo.countryquiz.databinding.FragmentHomeBinding
 import com.abrebo.countryquiz.ui.adapter.GameCategoryAdapter
 import com.abrebo.countryquiz.ui.viewmodel.HomeViewModel
 import com.abrebo.countryquiz.utils.BackPressUtils
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +42,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
 
-        viewModel.loadCategories()
+        binding.materialToolbar.setOnMenuItemClickListener {
+            if (it.itemId==R.id.profileFragmentToolbarMenu){
+                Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_profileFragment2)
+            }
+            true
+        }
+
         viewModel.categoryList.observe(viewLifecycleOwner){categoryList->
             val adapter=GameCategoryAdapter(requireContext(),categoryList)
             binding.recyclerViewGameCategory.adapter=adapter
@@ -57,9 +61,10 @@ class HomeFragment : Fragment() {
         super.onResume()
         initViewModel()
     }
-    fun initViewModel(){
+    private fun initViewModel(){
         viewModel.getUserNameByEmail(auth.currentUser?.email!!){userName->
             if (userName!=null){
+                viewModel.loadCategories(userName)
                 viewModel.getHighestScore(userName,1)
                 viewModel.getHighestScore(userName,2)
                 viewModel.getHighestScore(userName,3)

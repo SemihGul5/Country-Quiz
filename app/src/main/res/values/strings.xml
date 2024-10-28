@@ -1,5 +1,40 @@
 <resources>
     <string name="app_name">Country Quiz</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="answer">answer</string>
+    <string name="e_mail">E-mail</string>
+    <string name="sifre">Password</string>
+    <string name="IForgotMyPassword">I Forgot My Password</string>
+    <string name="giris_yap">Log In</string>
+    <string name="uye_degil_misin_uye_ol">Not a member? Sign Up!</string>
+    <string name="siralama">Ranking</string>
+    <string name="ad_ve_soyad">First Name and Last Name</string>
+    <string name="kullanici_adi">Username</string>
+    <string name="kayit_ol">Sign Up</string>
+    <string name="zaten_ye_misiniz_giri_yap">Already a member? Log In!</string>
+    <string name="siralamayi_gor">View Rankings</string>
+    <string name="basla">Start</string>
+    <string name="en_yuksek_skorum">Highest Score: </string>
+    <string name="skor">Skor</string>
+    <string name="FindtheFlagbyCountryName">Find the Flag by Country Name</string>
+    <string name="Findthecountrybytheflag">Find the country by the flag</string>
+    <string name="FindtheCapitaloftheCountry">Find the Capital of the Country</string>
+    <string name="FindthePopulationoftheCountry">Find the Population of the Country</string>
+    <string name="FindtheCountrybyGeographicLocation">Find the Country by Geographic Location</string>
+    <string name="FindtheContinentoftheCountry">Find the Continent of the Country</string>
+    <string name="time">Remaining Time: </string>
+    <string name="oyun_bitti">Game Over !</string>
+    <string name="skorunuz">Your Score: </string>
+    <string name="tamam">OK</string>
+
+
+
+
+
+
+
+
+
+
+
 </resources>

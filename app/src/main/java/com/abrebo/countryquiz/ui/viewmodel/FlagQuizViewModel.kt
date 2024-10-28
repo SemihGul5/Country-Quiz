@@ -1,16 +1,11 @@
 package com.abrebo.countryquiz.ui.viewmodel
 
-import android.annotation.SuppressLint
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.FlagQuestion
-import com.abrebo.countryquiz.data.model.PopulationQuestion
 import com.abrebo.countryquiz.data.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,7 +28,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
     }
 
     fun prepareQuestionsGame1() {
-        val allCountries = repository.getAllCountries() ?: return
+        val allCountries = repository.getAllCountries()
         val shuffledCountries = allCountries.shuffled()
 
         shuffledCountries.forEach { correctCountry ->
@@ -59,7 +54,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
         }
     }
     fun prepareQuestionsGame2() {
-        val allCountries = repository.getAllCountries() ?: return
+        val allCountries = repository.getAllCountries()
         val shuffledCountries = allCountries.shuffled()
 
         shuffledCountries.forEach { correctCountry ->
@@ -138,7 +133,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
         }
     }
     fun prepareQuestionsGame7Map() {
-        val allCountries = repository.getAllCountries() ?: return
+        val allCountries = repository.getAllCountries()
         val shuffledCountries = allCountries.shuffled()
 
         shuffledCountries.forEach { correctCountry ->

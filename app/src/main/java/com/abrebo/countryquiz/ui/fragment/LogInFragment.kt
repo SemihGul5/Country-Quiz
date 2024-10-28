@@ -47,7 +47,7 @@ class LogInFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_signUpFragment)
         }
 
-        if (auth.currentUser != null && auth.currentUser!!.isEmailVerified()) {
+        if (auth.currentUser != null && auth.currentUser!!.isEmailVerified) {
             val intent = Intent(requireContext(),MainPageActivity::class.java)
             startActivity(intent)
         }

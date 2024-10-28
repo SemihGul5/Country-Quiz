@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-
 @HiltViewModel
 class LogInViewModel @Inject constructor (var repository: Repository,
                                           application: Application): AndroidViewModel(application){
@@ -46,8 +45,6 @@ class LogInViewModel @Inject constructor (var repository: Repository,
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 if (auth.currentUser!!.isEmailVerified) {
-                    Toast.makeText(context, "Giriş Yapılıyor...", Toast.LENGTH_SHORT).show()
-
                     progressBar.visibility = View.GONE
                     Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_mainPageActivity)
                 } else {

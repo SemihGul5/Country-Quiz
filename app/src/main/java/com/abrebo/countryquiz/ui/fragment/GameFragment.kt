@@ -10,16 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.databinding.FragmentGameBinding
 import com.abrebo.countryquiz.ui.viewmodel.FlagQuizViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,29 +43,29 @@ class GameFragment : Fragment() {
 
         when (id) {
             1 -> {
-                binding.materialToolbar2.title="Ülke Adına Göre Bayrağını Bul"
+                binding.materialToolbar2.title=requireContext().getString(R.string.FindtheFlagbyCountryName)
                 imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
                 viewModel.prepareQuestionsGame1()
-                setupProgressAndTimer(10,10,10000)
+                setupProgressAndTimer(3,3,3000)
             }
             6 -> {
-                binding.materialToolbar2.title="Ülke Adına Göre Bayrağını Bul"
+                binding.materialToolbar2.title=requireContext().getString(R.string.FindtheFlagbyCountryName)
                 imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
                 viewModel.prepareQuestionsGame1()
                 setupProgressAndTimer(60,60,60000)
             }
             2 -> {
-                binding.materialToolbar2.title="Bayrağa Göre Ülkeyi Bul"
+                binding.materialToolbar2.title=requireContext().getString(R.string.Findthecountrybytheflag)
                 viewModel.prepareQuestionsGame2()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
-                setupProgressAndTimer(10,10,10000)
+                setupProgressAndTimer(3,3,3000)
                 binding.game1CountryNameText.visibility=View.GONE
                 binding.game1LinearLayout.visibility=View.GONE
                 binding.game2FlagImage.visibility=View.VISIBLE
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
             3->{
-                binding.materialToolbar2.title="Ülkenin Başkentini Bul"
+                binding.materialToolbar2.title=requireContext().getString(R.string.FindtheCapitaloftheCountry)
                 viewModel.prepareQuestionsGame3Capital()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
                 setupProgressAndTimer(10,10,10000)
@@ -75,7 +73,7 @@ class GameFragment : Fragment() {
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
             4->{
-                binding.materialToolbar2.title="Ülkenin Nüfusunu Bul"
+                binding.materialToolbar2.title=requireContext().getString(R.string.FindthePopulationoftheCountry)
                 viewModel.prepareQuestionsGame4Population()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
                 setupProgressAndTimer(10,10,10000)
@@ -83,7 +81,7 @@ class GameFragment : Fragment() {
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
             7->{
-                binding.materialToolbar2.title="Coğrafi Konuma Göre Ülkeyi Bul"
+                binding.materialToolbar2.title=requireContext().getString(R.string.FindtheCountrybyGeographicLocation)
                 viewModel.prepareQuestionsGame7Map()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
                 setupProgressAndTimer(10,10,10000)
@@ -93,10 +91,10 @@ class GameFragment : Fragment() {
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
             8->{
-                binding.materialToolbar2.title="Ülkenin Kıtasını Bul"
+                binding.materialToolbar2.title=requireContext().getString(R.string.FindtheContinentoftheCountry)
                 viewModel.prepareQuestionsGame8Continent()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
-                setupProgressAndTimer(10,10,10000)
+                setupProgressAndTimer(3,3,3000)
                 binding.game1LinearLayout.visibility=View.GONE
                 binding.game2LinearLayout.visibility=View.VISIBLE
             }
@@ -176,13 +174,26 @@ class GameFragment : Fragment() {
                         } else {
                             viewModel.nextQuestion(id)
                             if (id == 1) {
-                                resetTimer(10000,id)
+                                resetTimer(3000,id)
                             }
                         }
                     }
                 }
             }
-            2,7 -> {
+            2 -> {
+                answerButtons.forEach { button ->
+                    button.setOnClickListener { view ->
+                        val selectedCountryName = view.tag as String
+                        if (!viewModel.checkAnswer(selectedCountryName)) {
+                            showScoreDialog(id)
+                        } else {
+                            viewModel.nextQuestion(id)
+                            resetTimer(3000,id)
+                        }
+                    }
+                }
+            }
+            7 -> {
                 answerButtons.forEach { button ->
                     button.setOnClickListener { view ->
                         val selectedCountryName = view.tag as String
@@ -229,7 +240,7 @@ class GameFragment : Fragment() {
                             showScoreDialog(id)
                         } else {
                             viewModel.nextQuestion(id)
-                            resetTimer(10000,id)
+                            resetTimer(3000,id)
                         }
                     }
                 }
@@ -254,39 +265,50 @@ class GameFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateTimer(id: Int) {
         val secondsLeft = (timeLeftInMillis / 1000).toInt()
-        binding.timerText.text = "Süre: $secondsLeft"
+        binding.timerText.text =requireContext().getString(R.string.time)+secondsLeft
         binding.progressBar.progress = secondsLeft
 
         when (id) {
+            1, 2, 8 -> {
+                val redColor = ContextCompat.getColor(requireContext(), R.color.red)
+                binding.timerText.setTextColor(redColor)
+                binding.progressBar.progressTintList = ColorStateList.valueOf(redColor)
+            }
             6 -> {
                 when {
                     secondsLeft > 40 -> {
-                        binding.timerText.setTextColor(resources.getColor(R.color.green))
-                        binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.green))
+                        val greenColor = ContextCompat.getColor(requireContext(), R.color.green)
+                        binding.timerText.setTextColor(greenColor)
+                        binding.progressBar.progressTintList = ColorStateList.valueOf(greenColor)
                     }
                     secondsLeft > 20 -> {
-                        binding.timerText.setTextColor(resources.getColor(R.color.yellow))
-                        binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
+                        val yellowColor = ContextCompat.getColor(requireContext(), R.color.yellow)
+                        binding.timerText.setTextColor(yellowColor)
+                        binding.progressBar.progressTintList = ColorStateList.valueOf(yellowColor)
                     }
                     else -> {
-                        binding.timerText.setTextColor(resources.getColor(R.color.red))
-                        binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.red))
+                        val redColor = ContextCompat.getColor(requireContext(), R.color.red)
+                        binding.timerText.setTextColor(redColor)
+                        binding.progressBar.progressTintList = ColorStateList.valueOf(redColor)
                     }
                 }
             }
             else -> {
                 when {
                     secondsLeft > 7 -> {
-                        binding.timerText.setTextColor(resources.getColor(R.color.green))
-                        binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.green))
+                        val greenColor = ContextCompat.getColor(requireContext(), R.color.green)
+                        binding.timerText.setTextColor(greenColor)
+                        binding.progressBar.progressTintList = ColorStateList.valueOf(greenColor)
                     }
                     secondsLeft > 3 -> {
-                        binding.timerText.setTextColor(resources.getColor(R.color.yellow))
-                        binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.yellow))
+                        val yellowColor = ContextCompat.getColor(requireContext(), R.color.yellow)
+                        binding.timerText.setTextColor(yellowColor)
+                        binding.progressBar.progressTintList = ColorStateList.valueOf(yellowColor)
                     }
                     else -> {
-                        binding.timerText.setTextColor(resources.getColor(R.color.red))
-                        binding.progressBar.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.red))
+                        val redColor = ContextCompat.getColor(requireContext(), R.color.red)
+                        binding.timerText.setTextColor(redColor)
+                        binding.progressBar.progressTintList = ColorStateList.valueOf(redColor)
                     }
                 }
             }
@@ -311,9 +333,9 @@ class GameFragment : Fragment() {
             }
         }
         AlertDialog.Builder(requireContext())
-            .setTitle("Oyun Bitti!")
-            .setMessage("Skorunuz: $score")
-            .setPositiveButton("Tamam") { _, _ ->
+            .setTitle(requireContext().getString(R.string.oyun_bitti))
+            .setMessage(requireContext().getString(R.string.skorunuz)+score)
+            .setPositiveButton(requireContext().getString(R.string.tamam)) { _, _ ->
                 Navigation.findNavController(binding.root).navigate(R.id.action_gameFragment_to_homeFragment)
             }
             .setCancelable(false)

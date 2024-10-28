@@ -1,5 +1,6 @@
 package com.abrebo.countryquiz.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class GameCategoryAdapter(
         return categoryList.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = categoryList[position]
         val binding = holder.binding
@@ -40,7 +42,7 @@ class GameCategoryAdapter(
             val navDirection=HomeFragmentDirections.actionHomeFragmentToRankFragment(category.id)
             Navigation.findNavController(it).navigate(navDirection)
         }
-
+        binding.highestScoreText.text =context.getString(R.string.en_yuksek_skorum)+category.highestScore
 
     }
 }

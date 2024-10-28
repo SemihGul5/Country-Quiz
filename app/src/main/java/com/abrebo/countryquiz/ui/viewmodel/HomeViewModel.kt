@@ -3,7 +3,6 @@ package com.abrebo.countryquiz.ui.viewmodel
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.data.model.GameCategory
@@ -17,14 +16,12 @@ class HomeViewModel @Inject constructor (var repository: Repository,
                                              application: Application): AndroidViewModel(application){
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
-    private val _highestScore = MutableLiveData<Int>()
-    val highestScore: LiveData<Int> get() = _highestScore
+    val highestScore = MutableLiveData<Int>()
     val categoryList = MutableLiveData<List<GameCategory>>()
-
     fun getHighestScore(userName: String,game:Int) {
         viewModelScope.launch {
             val currentHighestScore = repository.getHighestScore(userName,game)
-            _highestScore.value = currentHighestScore
+            highestScore.value = currentHighestScore
         }
     }
     fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
@@ -32,12 +29,12 @@ class HomeViewModel @Inject constructor (var repository: Repository,
             onResult(repository.getUserNameByEmail(userEmail))
         }
     }
-    fun loadCategories() {
+    fun loadCategories(userName: String) {
         val categories = listOf(
             GameCategory(1,"Ülke Adına Göre Bayrağını Bul",
-                "Bayrağı isme göre eşleştirin. Her soru için 10 saniye. Bayraklar arasında 4 seçenek."),
+                "Bayrağı isme göre eşleştirin. Her soru için 3 saniye. Bayraklar arasında 4 seçenek."),
             GameCategory(2,"Bayrağa Göre Ülkeyi Bul",
-                "Bayraklardan ülke ismini bulun. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
+                "Bayraklardan ülke ismini bulun. Her soru için 3 saniye. Ülkeler arasında 4 seçenek."),
             GameCategory(3,"Ülkenin Başkentini Bul",
                 "Ülke başkentlerini öğrenin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
             GameCategory(4,"Ülkenin Nüfusunu Bul",
@@ -47,8 +44,15 @@ class HomeViewModel @Inject constructor (var repository: Repository,
             GameCategory(7,"Coğrafi Konuma Göre Ülkeyi Bul",
                 "Harita üzerinde ülkeler gösteriliyor, gösterilen ülkeyi bulun."),
             GameCategory(8,"Ülkenin Kıtasını Bul",
-                "Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 5 saniye. Kıtalar arasında 4 seçenek."),
+                "Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 3 saniye. Kıtalar arasında 4 seçenek."),
         )
         categoryList.value = categories
+        categories.forEach { category ->
+            viewModelScope.launch {
+                val highestScore = repository.getHighestScore(userName, category.id)
+                category.highestScore = highestScore
+                categoryList.postValue(categories)
+            }
+        }
     }
 }

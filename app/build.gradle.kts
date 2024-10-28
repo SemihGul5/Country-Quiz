@@ -70,8 +70,6 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-auth")
     //others
-    implementation("com.github.bumptech.glide:glide:4.13.2")
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
-    implementation ("nl.joery.animatedbottombar:library:1.1.0")
+    implementation ("com.airbnb.android:lottie:3.4.0")
 
 }

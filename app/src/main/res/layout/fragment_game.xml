@@ -15,13 +15,12 @@
         android:theme="?attr/actionBarTheme"
         app:titleTextColor="@color/white"
         app:titleCentered="true"
-        app:title="Ülkenin bayrağını seçin" />
+        />
     <TextView
         android:id="@+id/scoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Skor: 0"
         android:layout_gravity="center"
         android:textSize="26sp"
         android:textStyle="bold"/>
@@ -30,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Kalan Süre: 60"
         android:textSize="18sp"
         android:layout_gravity="center"
         android:textStyle="bold"/>
@@ -47,7 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Türkiye"
         android:textSize="22sp"
         android:layout_gravity="center"
         android:textStyle="bold"/>
@@ -74,8 +71,9 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/answer"
                 android:scaleType="fitXY"
-                android:src="@drawable/abd" />
+                />
 
             <ImageView
                 android:id="@+id/image2"
@@ -83,8 +81,9 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/answer"
                 android:scaleType="fitXY"
-                android:src="@drawable/turkiye" />
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -98,8 +97,9 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/answer"
                 android:scaleType="fitXY"
-                android:src="@drawable/angola" />
+                />
 
             <ImageView
                 android:id="@+id/image4"
@@ -107,8 +107,9 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:contentDescription="@string/answer"
                 android:scaleType="fitXY"
-                android:src="@drawable/arjantin" />
+                />
         </LinearLayout>
     </LinearLayout>
     <ImageView
@@ -119,6 +120,7 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:visibility="gone"
+        android:contentDescription="@string/answer"
         android:scaleType="fitCenter"
         android:src="@drawable/abd" />
 
@@ -136,6 +138,7 @@
         app:layout_constraintTop_toBottomOf="@+id/countryNameText">
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,14 +146,15 @@
 
             <Button
                 android:id="@+id/answer1"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/answer2"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
@@ -159,6 +163,7 @@
         </LinearLayout>
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,14 +171,15 @@
 
             <Button
                 android:id="@+id/answer3"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/answer4"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"

@@ -2,7 +2,6 @@ package com.abrebo.countryquiz.data.datasource
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.abrebo.countryquiz.data.model.RankUser
 import com.abrebo.countryquiz.data.model.User
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await

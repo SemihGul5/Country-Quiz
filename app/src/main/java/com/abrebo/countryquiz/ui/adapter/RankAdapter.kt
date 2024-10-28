@@ -1,13 +1,14 @@
 package com.abrebo.countryquiz.ui.adapter
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.RankUser
 import com.abrebo.countryquiz.databinding.RankItemBinding
-import com.abrebo.countryquiz.ui.viewmodel.UserViewModel
 
 class RankAdapter(
     val context: Context,
@@ -29,9 +30,9 @@ class RankAdapter(
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
         val binding = holder.binding
         if (position == 0) {
-            binding.rankText.text = "Rank"
-            binding.userNameText.text = "User Name"
-            binding.scoreText.text = "Score"
+            binding.rankText.text = context.getString(R.string.siralama)
+            binding.userNameText.text = context.getString(R.string.kullanici_adi)
+            binding.scoreText.text = context.getString(R.string.skor)
             binding.rankText.setTypeface(null, Typeface.BOLD)
             binding.userNameText.setTypeface(null, Typeface.BOLD)
             binding.scoreText.setTypeface(null, Typeface.BOLD)
@@ -45,7 +46,7 @@ class RankAdapter(
             binding.scoreText.setTypeface(null, Typeface.NORMAL)
             setUserBackground(user,binding)
         }
-        setupbackground(position,binding)
+        setupBackground(position,binding)
 
     }
 
@@ -57,12 +58,18 @@ class RankAdapter(
         }
     }
 
+    private fun setupBackground(position: Int, binding: RankItemBinding) {
+        val isDarkTheme = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
 
-    private fun setupbackground(position: Int,binding: RankItemBinding) {
-        if (position%2==0){
-            binding.linearLayoutDashboardItem.setBackgroundColor(context.getColor(R.color.grey))
-        }else{
-            binding.linearLayoutDashboardItem.setBackgroundColor(context.getColor(R.color.white))
+        val backgroundColor = if (isDarkTheme) {
+            if (position % 2 == 0) R.color.black2 else R.color.backgroun_dark_game_category
+        } else {
+            if (position % 2 == 0) R.color.grey else R.color.white
         }
+        val textColor = if (isDarkTheme) R.color.white else R.color.black
+        binding.linearLayoutDashboardItem.setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
+        binding.rankText.setTextColor(ContextCompat.getColor(context, textColor))
+        binding.userNameText.setTextColor(ContextCompat.getColor(context, textColor))
+        binding.scoreText.setTextColor(ContextCompat.getColor(context, textColor))
     }
 }

@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Ülke Sınavı</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="answer">answer</string>
+    <string name="e_mail">E-mail</string>
+    <string name="sifre">Şifre</string>
+    <string name="IForgotMyPassword">Şifreyi Unuttum</string>
+    <string name="giris_yap">Giriş Yap</string>
+    <string name="uye_degil_misin_uye_ol">Üye değil misin? Üye Ol !</string>
+    <string name="siralama">Sıralama</string>
+    <string name="ad_ve_soyad">Ad ve Soyad</string>
+    <string name="kullanici_adi">Kullanıcı Adı</string>
+    <string name="kayit_ol">Kayıt Ol</string>
+    <string name="zaten_ye_misiniz_giri_yap">Zaten üye misiniz? Giriş Yap !</string>
+    <string name="siralamayi_gor">Sıralamayı Gör</string>
+    <string name="basla">Başla</string>
+    <string name="en_yuksek_skorum">En Yüksek Skorum: </string>
+    <string name="skor">Skor</string>
+    <string name="FindtheFlagbyCountryName">Ülke Adına Göre Bayrağını Bul</string>
+    <string name="Findthecountrybytheflag">Bayrağa Göre Ülkeyi Bul</string>
+    <string name="FindtheCapitaloftheCountry">Ülkenin Başkentini Bul</string>
+    <string name="FindthePopulationoftheCountry">Ülkenin Nüfusunu Bul</string>
+    <string name="FindtheCountrybyGeographicLocation">Coğrafi Konuma Göre Ülkeyi Bul</string>
+    <string name="FindtheContinentoftheCountry">Ülkenin Kıtasını Bul</string>
+    <string name="time">Kalan Süre: </string>
+    <string name="oyun_bitti">Oyun Bitti !</string>
+    <string name="skorunuz">Skorunuz: </string>
+    <string name="tamam">Tamam</string>
+
+
+
+
+</resources>

@@ -14,20 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="32dp"
-        android:hint="E-mail"
+        android:hint="@string/e_mail"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/animationViewCartLottie">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/userEmailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -38,7 +37,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:hint="Şifre"
+        android:hint="@string/sifre"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:text="Şifreyi Unuttum"
+        android:text="@string/IForgotMyPassword"
         android:textColor="#2196F3"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Giriş Yap"
+        android:text="@string/giris_yap"
         android:backgroundTint="@color/main_color"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
@@ -98,10 +97,21 @@
         android:layout_marginTop="64dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:text="Üye değil misin? Üye Ol !"
+        android:text="@string/uye_degil_misin_uye_ol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logInButton" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationViewCartLottie"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/world_anim" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

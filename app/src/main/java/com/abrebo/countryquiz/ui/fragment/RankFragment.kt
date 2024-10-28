@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.abrebo.countryquiz.databinding.FragmentRankBinding
 import com.abrebo.countryquiz.ui.viewmodel.UserViewModel
-import com.abrebo.countryquiz.utils.BackPressUtils
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,10 +31,12 @@ class RankFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id=RankFragmentArgs.fromBundle(requireArguments()).gameId
+        binding.progressBar2.visibility = View.VISIBLE
         viewModel.getAllRankUsers(id)
 
 
         viewModel.userRankList.observe(viewLifecycleOwner){
+            binding.progressBar2.visibility = View.GONE
             viewModel.getUserNameByEmail(auth.currentUser?.email!!){userName->
                 val adapter= RankAdapter(requireContext(),it,userName!!)
                 binding.recyclerViewRank.adapter=adapter

@@ -3,7 +3,6 @@ package com.abrebo.countryquiz.ui.viewmodel
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.data.model.RankUser
