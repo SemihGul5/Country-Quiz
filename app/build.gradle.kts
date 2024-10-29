@@ -71,5 +71,5 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     //others
     implementation ("com.airbnb.android:lottie:3.4.0")
-
+    implementation("com.google.android.gms:play-services-ads:22.2.0")
 }

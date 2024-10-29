@@ -67,7 +67,7 @@ class LogInFragment : Fragment() {
         if (email.isNotEmpty()){
             viewModel.sendPasswordResetEmail(auth,email)
         }else{
-            Toast.makeText(requireContext(),"Email'i girin",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),requireContext().getString(R.string.enteryouremail),Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -78,7 +78,7 @@ class LogInFragment : Fragment() {
         if (email.isNotEmpty() && password.isNotEmpty()){
             viewModel.signInWithEmailAndPassword(auth,email,password,binding.progressBar,it)
         }else{
-            Toast.makeText(requireContext(),"Email ve şifreyi girin",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),requireContext().getString(R.string.enteryouremailandpassword),Toast.LENGTH_SHORT).show()
         }
     }
 }

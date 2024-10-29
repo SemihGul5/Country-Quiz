@@ -1,5 +1,6 @@
 package com.abrebo.countryquiz.di
 
+import android.content.Context
 import com.abrebo.countryquiz.data.datasource.DataSource
 import com.abrebo.countryquiz.data.datasource.GameDataSource
 import com.abrebo.countryquiz.data.repo.Repository
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.firestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -69,8 +71,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(dataSource: DataSource,gameDataSource: GameDataSource):Repository{
-        return Repository(dataSource,gameDataSource)
+    fun provideRepository(dataSource: DataSource,gameDataSource: GameDataSource,@ApplicationContext context: Context):Repository{
+        return Repository(dataSource,gameDataSource,context)
     }
 
     @Provides

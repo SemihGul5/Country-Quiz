@@ -28,8 +28,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val settingsList=ArrayList<String>()
-        settingsList.add("Uygulamayı Paylaş")
-        settingsList.add("Çıkış Yap")
+        settingsList.add(requireContext().getString(R.string.sharetheApp))
+        settingsList.add(requireContext().getString(R.string.logOut))
 
         val adapter= ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1,settingsList)
         binding.listView.adapter=adapter
@@ -49,11 +49,11 @@ class ProfileFragment : Fragment() {
     private fun shareApp() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
-        val shareMessage = "Bu harika uygulamayı denemenizi tavsiye ederim! Play Store bağlantısı: " +
+        val shareMessage = requireContext().getString(R.string.share_app_text) +
                 "https://play.google.com/store/apps/developer?id=Abrebo+Studio&pli=1"
 
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
-        startActivity(Intent.createChooser(shareIntent, "Uygulamayı Paylaş"))
+        startActivity(Intent.createChooser(shareIntent, requireContext().getString(R.string.sharetheApp)))
     }
 
 }

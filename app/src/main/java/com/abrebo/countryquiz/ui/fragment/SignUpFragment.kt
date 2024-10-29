@@ -72,12 +72,12 @@ class SignUpFragment : Fragment() {
                     clearText()
                 } else {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Kullanıcı adı zaten mevcut", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), requireContext().getString(R.string.usernamealreadyexists), Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
             binding.progressBar.visibility = View.GONE
-            Toast.makeText(requireContext(), "Tüm alanları eksiksiz şekilde doldurun", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), requireContext().getString(R.string.pleasefilloutallfieldscompletely), Toast.LENGTH_SHORT).show()
         }
     }
     private fun isNotEmptyUserInput(nameFamily: String, userName: String, email: String, password: String, passwordRetry: String):Boolean {

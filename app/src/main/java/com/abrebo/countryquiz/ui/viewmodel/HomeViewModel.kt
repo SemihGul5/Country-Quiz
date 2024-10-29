@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.GameCategory
 import com.abrebo.countryquiz.data.repo.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,20 +32,20 @@ class HomeViewModel @Inject constructor (var repository: Repository,
     }
     fun loadCategories(userName: String) {
         val categories = listOf(
-            GameCategory(1,"Ülke Adına Göre Bayrağını Bul",
-                "Bayrağı isme göre eşleştirin. Her soru için 3 saniye. Bayraklar arasında 4 seçenek."),
-            GameCategory(2,"Bayrağa Göre Ülkeyi Bul",
-                "Bayraklardan ülke ismini bulun. Her soru için 3 saniye. Ülkeler arasında 4 seçenek."),
-            GameCategory(3,"Ülkenin Başkentini Bul",
-                "Ülke başkentlerini öğrenin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
-            GameCategory(4,"Ülkenin Nüfusunu Bul",
-                "Ülkelerin nüfusunu tahmin edin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek."),
-            GameCategory(6,"Bir Dakikada Tahmin Et (Ülke Adına Göre Bayrağını Bul)",
-                "Bayrağı isme göre eşleştirin. 1 dakikada olabildiğince çok soru bilin."),
-            GameCategory(7,"Coğrafi Konuma Göre Ülkeyi Bul",
-                "Harita üzerinde ülkeler gösteriliyor, gösterilen ülkeyi bulun."),
-            GameCategory(8,"Ülkenin Kıtasını Bul",
-                "Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 3 saniye. Kıtalar arasında 4 seçenek."),
+            GameCategory(1,context.getString(R.string.FindtheFlagbyCountryName),
+                context.getString(R.string.Game1Text)),
+            GameCategory(7,context.getString(R.string.FindtheCountrybyGeographicLocation),
+                context.getString(R.string.Game7Text)),
+            GameCategory(2,context.getString(R.string.Findthecountrybytheflag),
+                context.getString(R.string.Game2Text)),
+            GameCategory(3,context.getString(R.string.FindtheCapitaloftheCountry),
+                context.getString(R.string.Game3Text)),
+            GameCategory(4,context.getString(R.string.FindthePopulationoftheCountry),
+                context.getString(R.string.Game4Text)),
+            GameCategory(6,context.getString(R.string.Game6Title),
+                context.getString(R.string.Game6Text)),
+            GameCategory(8,context.getString(R.string.Game8Title),
+                context.getString(R.string.Game8Text)),
         )
         categoryList.value = categories
         categories.forEach { category ->

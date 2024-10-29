@@ -146,7 +146,6 @@
 
             <Button
                 android:id="@+id/answer1"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
@@ -154,7 +153,6 @@
 
             <Button
                 android:id="@+id/answer2"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
@@ -171,7 +169,6 @@
 
             <Button
                 android:id="@+id/answer3"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
@@ -179,7 +176,6 @@
 
             <Button
                 android:id="@+id/answer4"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"

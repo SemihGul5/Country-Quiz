@@ -30,7 +30,11 @@ class GameFragment : Fragment() {
     private lateinit var countDownTimer: CountDownTimer
     private var isGameFinished = false
     private lateinit var answerButtons: List<Button>
-
+    private var id: Int = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        id=GameFragmentArgs.fromBundle(requireArguments()).id
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentGameBinding.inflate(inflater, container, false)
         return binding.root
@@ -38,7 +42,6 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id=GameFragmentArgs.fromBundle(requireArguments()).id
         viewModel.nextQuestion(id)
 
         when (id) {
@@ -115,6 +118,7 @@ class GameFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         if (!isGameFinished) {
+            countDownTimer.cancel()
             showScoreDialog(id)
         }
     }
