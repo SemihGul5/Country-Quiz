@@ -1,5 +1,9 @@
 package com.abrebo.countryquiz.ui.viewmodel
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,14 +11,19 @@ import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.FlagQuestion
 import com.abrebo.countryquiz.data.repo.Repository
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewModel(){
-
+class FlagQuizViewModel @Inject constructor (var repository: Repository,application: Application): AndroidViewModel(application){
+    @SuppressLint("StaticFieldLeak")
+    private val context = getApplication<Application>().applicationContext
     private val _currentQuestion = MutableLiveData<FlagQuestion>()
     val currentQuestion: LiveData<FlagQuestion> get() = _currentQuestion
     private val _score = MutableLiveData<Int>()
@@ -22,6 +31,7 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
     private val questions = mutableListOf<FlagQuestion>()
     private var questionIndex = 0
     private val _highestScore = MutableLiveData<Int>()
+    private var interstitialAd: InterstitialAd? = null
     val highestScore: LiveData<Int> get() = _highestScore
     init {
         _score.value = 0
@@ -86,11 +96,11 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             val options = allCountries
                 .filter { it != country }
                 .shuffled()
-                .take(3)
+                .take(1)
                 .map { it.population }
                 .toMutableList()
 
-            val correctAnswerPosition = Random.nextInt(4)
+            val correctAnswerPosition = Random.nextInt(2)
             options.add(correctAnswerPosition, country.population)
 
             questions.add(
@@ -284,6 +294,25 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository):ViewMod
             }
         }
         nextQuestion(id)
+    }
+
+    fun loadInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(context, "ca-app-pub-4667560937795938/4139635182", adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    interstitialAd = ad
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
+            })
+    }
+    fun showInterstitialAd(activity: Activity) {
+        if (interstitialAd!=null){
+            interstitialAd?.show(activity)
+        }
     }
 
 }

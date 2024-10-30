@@ -146,14 +146,24 @@
         android:id="@+id/logInTextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/zaten_ye_misiniz_giri_yap"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpButton" />
 
+    <FrameLayout
+        android:id="@+id/adView"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logInTextButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

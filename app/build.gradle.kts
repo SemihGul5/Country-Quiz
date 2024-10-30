@@ -15,7 +15,7 @@ android {
         applicationId = "com.abrebo.countryquiz"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -72,4 +72,5 @@ dependencies {
     //others
     implementation ("com.airbnb.android:lottie:3.4.0")
     implementation("com.google.android.gms:play-services-ads:22.2.0")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 }

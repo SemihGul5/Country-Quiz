@@ -26,11 +26,11 @@
     <string name="Game7Text">Harita üzerinde ülkeler gösteriliyor, gösterilen ülkeyi bulun.</string>
     <string name="Game2Text">Bayraklardan ülke ismini bulun. Her soru için 3 saniye. Ülkeler arasında 4 seçenek.</string>
     <string name="Game3Text">Ülke başkentlerini öğrenin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek.</string>
-    <string name="Game4Text">Ülkelerin nüfusunu tahmin edin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek.</string>
+    <string name="Game4Text">Ülkelerin nüfusunu tahmin edin. Her soru için 10 saniye. Ülkeler arasında 2 seçenek.</string>
     <string name="Game6Title">Bir Dakikada Tahmin Et (Ülke Adına Göre Bayrağını Bul)</string>
     <string name="Game6Text">Bayrağı isme göre eşleştirin. 1 dakikada olabildiğince çok soru bilin.</string>
     <string name="Game8Title">Ülkenin Kıtasını Bul</string>
-    <string name="Game8Text">Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 3 saniye. Kıtalar arasında 4 seçenek.</string>
+    <string name="Game8Text">Ülkelerin bulunduğu kıtayı doğru tahmin edin. Her soru için 5 saniye. Kıtalar arasında 4 seçenek.</string>
     <string name="time">Kalan Süre: </string>
     <string name="oyun_bitti">Oyun Bitti !</string>
     <string name="skorunuz">Skorunuz: </string>
@@ -184,5 +184,6 @@
     <string name="Gronland">Grönland</string>
     <string name="CookAdalari">Cook Adaları</string>
     <string name="FaroeAdalari">Faroe Adaları</string>
+    <string name="tema">Temayı Değiştir</string>
 
 </resources>

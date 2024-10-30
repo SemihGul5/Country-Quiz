@@ -4,5 +4,6 @@ data class GameCategory(
     val id:Int,
     val title: String,
     val description: String,
-    var highestScore: Int = 0
+    var highestScore: Int = 0,
+    var rank:Int=0
 )

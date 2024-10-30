@@ -179,12 +179,11 @@
     <string name="Game7Text">Countries are shown on the map; find the displayed country.</string>
     <string name="Game2Text">Find the country name from the flags. Three seconds per question. Four options among the countries.</string>
     <string name="Game3Text">Learn the country capitals. Ten seconds per question. Four options among the countries.</string>
-    <string name="Game4Text">Guess the populations of the countries. Ten seconds per question. Four options among the countries.</string>
+    <string name="Game4Text">Guess the populations of the countries. Ten seconds per question. Two options among the countries.</string>
     <string name="Game6Title">Guess in One Minute (Find the Flag by Country Name)</string>
     <string name="Game6Text">Match the flag with the name. Answer as many questions as possible in one minute.</string>
     <string name="Game8Title">Find the Continent of the Country</string>
-    <string name="Game8Text">Correctly guess the continent of the countries. Three seconds per question. Four options among the continents.</string>
-
-
+    <string name="Game8Text">Correctly guess the continent of the countries. 5 seconds per question. Four options among the continents.</string>
+    <string name="tema">Change the Theme</string>
 
 </resources>

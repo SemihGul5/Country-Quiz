@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.fragment.LogInFragment" >
 
     <com.google.android.material.textfield.TextInputLayout
@@ -95,7 +94,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:textColor="@color/black"
         android:textStyle="bold"
         android:text="@string/uye_degil_misin_uye_ol"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,5 +111,14 @@
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
         app:lottie_rawRes="@raw/world_anim" />
+    <FrameLayout
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTextButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
