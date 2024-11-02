@@ -27,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var auth: FirebaseAuth
     private lateinit var adView: AdView
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -39,7 +38,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
         sharedPreferences = requireContext().getSharedPreferences("ThemePrefs", android.content.Context.MODE_PRIVATE)
 
         // Tema tercihini kontrol et ve uygula
@@ -95,7 +93,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel.getUserNameByEmail(auth.currentUser?.email!!) { userName ->
+        viewModel.getUserName() { userName ->
             if (userName != null) {
                 viewModel.loadCategories(userName)
                 viewModel.getHighestScore(userName, 1)

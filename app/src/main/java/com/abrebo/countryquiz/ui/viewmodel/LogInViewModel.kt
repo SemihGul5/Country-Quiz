@@ -8,13 +8,20 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.abrebo.countryquiz.R
+import com.abrebo.countryquiz.data.model.User
 import com.abrebo.countryquiz.data.repo.Repository
+import com.abrebo.countryquiz.datastore.AppPref
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,47 +29,26 @@ class LogInViewModel @Inject constructor (var repository: Repository,
                                           application: Application): AndroidViewModel(application){
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
+    private val appPref= AppPref.getInstance(context)
+    var userName= MutableLiveData<String>()
 
-    fun sendEmailVerification(user: FirebaseUser) {
-        user.sendEmailVerification().addOnCompleteListener {
-            if (it.isSuccessful){
-                Toast.makeText(context,"Email gönderildi, hesabınızı doğrulayın.", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(context,"E mail verification failed", Toast.LENGTH_SHORT).show()
-            }
+    fun saveUserName(userName:String){
+        viewModelScope.launch {
+            appPref.saveUserName(userName)
+            repository.saveUser(User("",userName))
         }
     }
-    fun sendPasswordResetEmail(auth: FirebaseAuth,email:String){
-        auth.sendPasswordResetEmail(email).addOnCompleteListener { task->
-            if (task.isSuccessful){
-                Toast.makeText(context,"Şifre sıfırlama e-mail'i gönderildi.",Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(context, task.exception?.localizedMessage, Toast.LENGTH_SHORT).show()
-            }
+    fun getUserName(){
+        viewModelScope.launch {
+            userName.value = appPref.getUserName()
         }
     }
-    fun signInWithEmailAndPassword(auth: FirebaseAuth,email: String,password:String,progressBar:ProgressBar,it:View){
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                if (auth.currentUser!!.isEmailVerified) {
-                    progressBar.visibility = View.GONE
-                    Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_mainPageActivity)
-                } else {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(context, "Email adresinizi doğrulayın", Toast.LENGTH_SHORT).show()
-
-                    val backgroundColor = ContextCompat.getColor(context, R.color.main_color)
-                    Snackbar.make(it, "Doğrulama email'i yeniden gönderilsin mi? ", Snackbar.LENGTH_SHORT)
-                        .setActionTextColor(Color.WHITE)
-                        .setBackgroundTint(backgroundColor)
-                        .setAction("Gönder") {
-                            sendEmailVerification(auth.currentUser!!)
-                        }.show()
-                }
-            } else {
-                progressBar.visibility = View.GONE
-                Toast.makeText(context, task.exception?.localizedMessage, Toast.LENGTH_SHORT).show()
+    fun checkUserNameAvailability(userName: String, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val isAvailable = withContext(Dispatchers.IO) {
+                repository.checkUserNameAvailability(userName)
             }
+            callback(isAvailable)
         }
     }
 

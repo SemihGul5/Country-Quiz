@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Ülke Sınavı</string>
+    <string name="app_name">Ülke Bayrakları Haritalar-Quiz</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="answer">answer</string>
     <string name="e_mail">E-mail</string>
+    <string name="kullanici_adi_belirle">Bir Kullanıcı Adı Belirleyin</string>
     <string name="sifre">Şifre</string>
     <string name="IForgotMyPassword">Şifreyi Unuttum</string>
     <string name="giris_yap">Giriş Yap</string>
@@ -22,9 +23,9 @@
     <string name="FindthePopulationoftheCountry">Ülkenin Nüfusunu Bul</string>
     <string name="FindtheCountrybyGeographicLocation">Coğrafi Konuma Göre Ülkeyi Bul</string>
     <string name="FindtheContinentoftheCountry">Ülkenin Kıtasını Bul</string>
-    <string name="Game1Text">Bayrağı isme göre eşleştirin. Her soru için 3 saniye. Bayraklar arasında 4 seçenek.</string>
+    <string name="Game1Text">Bayrağı isme göre eşleştirin. Her soru için 5 saniye. Bayraklar arasında 4 seçenek.</string>
     <string name="Game7Text">Harita üzerinde ülkeler gösteriliyor, gösterilen ülkeyi bulun.</string>
-    <string name="Game2Text">Bayraklardan ülke ismini bulun. Her soru için 3 saniye. Ülkeler arasında 4 seçenek.</string>
+    <string name="Game2Text">Bayraklardan ülke ismini bulun. Her soru için 5 saniye. Ülkeler arasında 4 seçenek.</string>
     <string name="Game3Text">Ülke başkentlerini öğrenin. Her soru için 10 saniye. Ülkeler arasında 4 seçenek.</string>
     <string name="Game4Text">Ülkelerin nüfusunu tahmin edin. Her soru için 10 saniye. Ülkeler arasında 2 seçenek.</string>
     <string name="Game6Title">Bir Dakikada Tahmin Et (Ülke Adına Göre Bayrağını Bul)</string>

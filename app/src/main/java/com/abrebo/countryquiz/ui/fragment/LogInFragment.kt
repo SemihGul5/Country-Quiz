@@ -26,15 +26,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LogInFragment : Fragment() {
-    private lateinit var auth: FirebaseAuth
     private lateinit var viewModel:LogInViewModel
     private lateinit var binding:FragmentLogInBinding
-    private lateinit var email:String
-    private lateinit var password:String
+    private lateinit var userName:String
     private lateinit var adView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = Firebase.auth
         val temp:LogInViewModel by viewModels()
         viewModel=temp
     }
@@ -59,42 +56,35 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BackPressUtils.setBackPressCallback(this, viewLifecycleOwner)
-        binding.signUpTextButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_signUpFragment)
+
+        viewModel.userName.observe(viewLifecycleOwner){userName->
+            if (userName!="No have a UserName"){
+                val intent = Intent(requireContext(),MainPageActivity::class.java)
+                startActivity(intent)
+            }
         }
 
-        if (auth.currentUser != null && auth.currentUser!!.isEmailVerified) {
-            val intent = Intent(requireContext(),MainPageActivity::class.java)
-            startActivity(intent)
-        }
         binding.logInButton.setOnClickListener {
             logIn(it)
         }
-        binding.textViewForgotPassword.setOnClickListener {
-            forgotPasswordClicked()
-        }
 
-
-
-    }
-
-    private fun forgotPasswordClicked() {
-        email = binding.userEmailText.text.toString()
-        if (email.isNotEmpty()){
-            viewModel.sendPasswordResetEmail(auth,email)
-        }else{
-            Toast.makeText(requireContext(),requireContext().getString(R.string.enteryouremail),Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun logIn(it:View) {
-        email = binding.userEmailText.text.toString()
-        password = binding.userPasswordText.text.toString()
+        userName = binding.userNameText.text.toString().lowercase()
         binding.progressBar.visibility = View.VISIBLE
-        if (email.isNotEmpty() && password.isNotEmpty()){
-            viewModel.signInWithEmailAndPassword(auth,email,password,binding.progressBar,it)
+        if (userName.isNotEmpty() && userName.length<20){
+            viewModel.checkUserNameAvailability(userName){isAvaible->
+                binding.progressBar.visibility = View.GONE
+                if (isAvaible){
+                    viewModel.saveUserName(userName)
+                    Navigation.findNavController(it).navigate(R.id.action_logInFragment_to_mainPageActivity)
+                }else{
+                    Toast.makeText(requireContext(), requireContext().getString(R.string.usernamealreadyexists), Toast.LENGTH_SHORT).show()
+                }
+            }
         }else{
-            Toast.makeText(requireContext(),requireContext().getString(R.string.enteryouremailandpassword),Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),requireContext().getString(R.string.kullanici_adi_belirle),Toast.LENGTH_SHORT).show()
         }
     }
 }

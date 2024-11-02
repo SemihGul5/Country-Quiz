@@ -2,6 +2,7 @@ package com.abrebo.countryquiz.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
@@ -56,6 +57,8 @@ class GameCategoryAdapter(
             val binding = holder.binding
             binding.kategoryTitle.text = category.title
             binding.kategoryDescription.text = category.description
+            binding.rankButton.paintFlags =binding.rankButton.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
             binding.rankText.text=context.getString(R.string.siralama) +": "+category.rank.toString()
 
             binding.startGameButton.setOnClickListener {

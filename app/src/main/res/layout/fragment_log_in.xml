@@ -13,54 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:hint="@string/e_mail"
+        android:hint="@string/kullanici_adi_belirle"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/animationViewCartLottie">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userEmailText"
+            android:id="@+id/userNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="@string/sifre"
-        app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userPasswordText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <TextView
-        android:id="@+id/textViewForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/IForgotMyPassword"
-        android:textColor="#2196F3"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <Button
         android:id="@+id/logInButton"
@@ -75,7 +41,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewForgotPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -89,27 +55,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/signUpTextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:textStyle="bold"
-        android:text="@string/uye_degil_misin_uye_ol"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logInButton" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationViewCartLottie"
         android:layout_width="250dp"
         android:layout_height="200dp"
+        android:layout_marginTop="16dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="visible"
-        app:lottie_loop="true"
         app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:lottie_rawRes="@raw/world_anim" />
     <FrameLayout
         android:id="@+id/adView"
@@ -119,6 +76,6 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpTextButton" />
+        app:layout_constraintTop_toBottomOf="@+id/logInButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

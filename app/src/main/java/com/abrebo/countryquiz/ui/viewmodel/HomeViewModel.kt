@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.GameCategory
 import com.abrebo.countryquiz.data.repo.Repository
+import com.abrebo.countryquiz.datastore.AppPref
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,9 +26,12 @@ class HomeViewModel @Inject constructor (var repository: Repository,
             highestScore.value = currentHighestScore
         }
     }
-    fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
+    fun getUserName(onResult: (String?) -> Unit){
         viewModelScope.launch {
-            onResult(repository.getUserNameByEmail(userEmail))
+            val appPref= AppPref.getInstance(context)
+            viewModelScope.launch {
+                onResult(appPref.getUserName())
+            }
         }
     }
     fun loadCategories(userName: String) {

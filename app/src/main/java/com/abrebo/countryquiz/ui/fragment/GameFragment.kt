@@ -66,7 +66,7 @@ class GameFragment : Fragment() {
                 binding.materialToolbar2.title=requireContext().getString(R.string.FindtheFlagbyCountryName)
                 imageViews = listOf(binding.image1, binding.image2, binding.image3, binding.image4)
                 viewModel.prepareQuestionsGame1()
-                setupProgressAndTimer(3,3,3000)
+                setupProgressAndTimer(5,5,5000)
             }
             6 -> {
                 binding.materialToolbar2.title=requireContext().getString(R.string.FindtheFlagbyCountryName)
@@ -78,7 +78,7 @@ class GameFragment : Fragment() {
                 binding.materialToolbar2.title=requireContext().getString(R.string.Findthecountrybytheflag)
                 viewModel.prepareQuestionsGame2()
                 answerButtons = listOf(binding.answer1, binding.answer2, binding.answer3, binding.answer4)
-                setupProgressAndTimer(3,3,3000)
+                setupProgressAndTimer(5,5,5000)
                 binding.game1CountryNameText.visibility=View.GONE
                 binding.game1LinearLayout.visibility=View.GONE
                 binding.game2FlagImage.visibility=View.VISIBLE
@@ -197,7 +197,7 @@ class GameFragment : Fragment() {
                         } else {
                             viewModel.nextQuestion(id)
                             if (id == 1) {
-                                resetTimer(3000,id)
+                                resetTimer(5000,id)
                             }
                         }
                     }
@@ -211,7 +211,7 @@ class GameFragment : Fragment() {
                             showScoreDialog(id)
                         } else {
                             viewModel.nextQuestion(id)
-                            resetTimer(3000,id)
+                            resetTimer(5000,id)
                         }
                     }
                 }
@@ -292,11 +292,6 @@ class GameFragment : Fragment() {
         binding.progressBar.progress = secondsLeft
 
         when (id) {
-            1, 2 -> {
-                val redColor = ContextCompat.getColor(requireContext(), R.color.red)
-                binding.timerText.setTextColor(redColor)
-                binding.progressBar.progressTintList = ColorStateList.valueOf(redColor)
-            }
             6 -> {
                 when {
                     secondsLeft > 40 -> {
@@ -316,7 +311,7 @@ class GameFragment : Fragment() {
                     }
                 }
             }
-            8 -> {
+            1, 2,8 -> {
                 when {
                     secondsLeft > 4 -> {
                         val greenColor = ContextCompat.getColor(requireContext(), R.color.green)
@@ -367,9 +362,8 @@ class GameFragment : Fragment() {
         countDownTimer.cancel()
         isGameFinished = true
         val score = viewModel.score.value ?: 0
-        val auth=FirebaseAuth.getInstance()
-        val email=auth.currentUser?.email!!
-        viewModel.getUserNameByEmail(email){
+
+        viewModel.getUserName(){
             if (it!=null){
                 viewModel.updateScore(score,it.toString(),id)
             }

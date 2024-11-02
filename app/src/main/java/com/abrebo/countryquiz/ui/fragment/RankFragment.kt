@@ -20,11 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class RankFragment : Fragment() {
     private lateinit var binding:FragmentRankBinding
     private val viewModel:UserViewModel by viewModels()
-    private lateinit var auth: FirebaseAuth
+
     private lateinit var adView: AdView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth=FirebaseAuth.getInstance()
 
     }
 
@@ -53,11 +52,10 @@ class RankFragment : Fragment() {
 
         viewModel.userRankList.observe(viewLifecycleOwner){
             binding.progressBar2.visibility = View.GONE
-            viewModel.getUserNameByEmail(auth.currentUser?.email!!){userName->
+            viewModel.getUserName(){userName->
                 val adapter= RankAdapter(requireContext(),it,userName!!)
                 binding.recyclerViewRank.adapter=adapter
             }
         }
     }
-
 }

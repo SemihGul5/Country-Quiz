@@ -6,11 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
-    <de.hdodenhof.circleimageview.CircleImageView
+
+    <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/country_icon_1024"
+        android:layout_width="400dp"
+        android:layout_height="500dp"
+        android:src="@drawable/world"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -55,9 +55,7 @@ class DataSource(var collectionReference: CollectionReference) {
 
     fun updateUser(user:User){
         val newUser=HashMap<String,Any>()
-        newUser["nameFamily"]=user.nameFamily!!
         newUser["userName"]=user.userName!!
-        newUser["email"]=user.email!!
         collectionReference.document(user.id!!).update(newUser)
     }
 
@@ -72,24 +70,6 @@ class DataSource(var collectionReference: CollectionReference) {
         } catch (e: Exception) {
             Log.e("hata",e.message.toString())
             false
-        }
-    }
-    suspend fun getUserNameByEmail(userEmail: String): String? {
-        return try {
-            val querySnapshot = collectionReference
-                .whereEqualTo("email", userEmail)
-                .get()
-                .await()
-
-            if (!querySnapshot.isEmpty) {
-                val document = querySnapshot.documents.first()
-                document.getString("userName")
-            } else {
-                null
-            }
-        } catch (e: Exception) {
-            Log.e("hata", e.message.toString())
-            null
         }
     }
 }

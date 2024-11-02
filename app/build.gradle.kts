@@ -15,7 +15,7 @@ android {
         applicationId = "com.abrebo.countryquiz"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
+        versionCode = 6
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -69,6 +69,11 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-auth")
+    //datastore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     //others
     implementation ("com.airbnb.android:lottie:3.4.0")
     implementation("com.google.android.gms:play-services-ads:22.2.0")

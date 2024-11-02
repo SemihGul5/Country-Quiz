@@ -3,6 +3,7 @@ package com.abrebo.countryquiz.ui.viewmodel
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.abrebo.countryquiz.R
 import com.abrebo.countryquiz.data.model.FlagQuestion
 import com.abrebo.countryquiz.data.repo.Repository
+import com.abrebo.countryquiz.datastore.AppPref
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -21,7 +23,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class FlagQuizViewModel @Inject constructor (var repository: Repository,application: Application): AndroidViewModel(application){
+class   FlagQuizViewModel @Inject constructor (var repository: Repository,application: Application): AndroidViewModel(application){
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
     private val _currentQuestion = MutableLiveData<FlagQuestion>()
@@ -265,9 +267,12 @@ class FlagQuizViewModel @Inject constructor (var repository: Repository,applicat
             }
         }
     }
-    fun getUserNameByEmail(userEmail: String, onResult: (String?) -> Unit){
+    fun getUserName(onResult: (String?) -> Unit){
         viewModelScope.launch {
-            onResult(repository.getUserNameByEmail(userEmail))
+            val appPref= AppPref.getInstance(context)
+            viewModelScope.launch {
+                onResult(appPref.getUserName())
+            }
         }
     }
     private fun resetGame(id:Int) {

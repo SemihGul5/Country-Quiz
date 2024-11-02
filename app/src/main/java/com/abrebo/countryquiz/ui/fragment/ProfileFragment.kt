@@ -59,8 +59,6 @@ class ProfileFragment : Fragment() {
         val settingsList = arrayListOf(
             requireContext().getString(R.string.sharetheApp),
             requireContext().getString(R.string.tema),
-            requireContext().getString(R.string.logOut)
-
         )
 
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, settingsList)
@@ -70,7 +68,7 @@ class ProfileFragment : Fragment() {
             when (i) {
                 0 -> shareApp()
                 1 -> toggleTheme()
-                2 -> logOut()
+
             }
         }
     }
@@ -92,12 +90,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun logOut() {
-        FirebaseAuth.getInstance().signOut()
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
-    }
 
     private fun shareApp() {
         val shareIntent = Intent(Intent.ACTION_SEND)
